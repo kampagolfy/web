@@ -1,4 +1,20 @@
 /* CSS */
+
+@import url('https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;500;700&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
+.zen-maru-gothic {
+  font-family: "Zen Maru Gothic", system-ui;
+  font-weight: 700;
+  font-style: normal;
+  font-size:28px;
+  }
+  
+ button
+ {
+  font-family: "Zen Maru Gothic", system-ui;
+  font-weight: 400;
+ } 
+
+
 .highlighted {
   background-color: yellow;
 }
@@ -160,21 +176,6 @@ h1 {
             opacity: 0;
         }
 
-@import url('https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;500;700&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
-
-.zen-maru-gothic {
-  font-family: "Zen Maru Gothic", system-ui;
-  font-weight: 700;
-  font-style: normal;
-  font-size:28px;
-  }
-  
- button
- {
-  font-family: "Zen Maru Gothic", system-ui;
-  font-weight: 400;
- } 
-
 
 #mydiv {
   position: absolute;
@@ -191,3 +192,7 @@ h1 {
   background-color: green;
   color: #fff;
 }
+
+ 
+
+
