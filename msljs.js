@@ -1454,7 +1454,7 @@ var b=a+"<button onclick=\"alerttext()\">test</button>";
 document.getElementById("genbunspan").innerHTML=b;
 }
 
-
+alert("openit");
 
 
   
