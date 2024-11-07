@@ -1447,14 +1447,14 @@ document.getElementById("Preview_p").innerHTML=editor.getValue();
 
 }
 
-function add_html_item()
-{
+//function add_html_item()
+//{
 var a=document.getElementById("genbunspan").innerHTML;
 var b=a+"<button onclick=\"alerttext()\">test</button>";
 document.getElementById("genbunspan").innerHTML=b;
-}
+//}
 
-add_html_item();
+//add_html_item();
 
 
   
