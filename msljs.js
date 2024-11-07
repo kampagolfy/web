@@ -1450,6 +1450,6 @@ document.getElementById("Preview_p").innerHTML=editor.getValue();
 function add_html_item()
 {
 var a=document.getElementById("genbunspan").innerHTML;
-var b=a+"<button onclick=\"alert('click');\">test</button>";
+var b=a+"<button onclick=\"alert('click CDん');\">test</button>";
 document.getElementById("genbunspan").innerHTML=b;
 } 
