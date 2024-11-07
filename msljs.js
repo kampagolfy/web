@@ -1452,10 +1452,5 @@ function add_html_item()
 var a=document.getElementById("genbunspan").innerHTML;
 var b=a+"<button onclick=\"alerttext()\">test</button>";
 document.getElementById("genbunspan").innerHTML=b;
-}
-
-alert("openit");
-
-
-  
+} 
 
