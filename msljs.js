@@ -1453,4 +1453,3 @@ var a=document.getElementById("genbunspan").innerHTML;
 var b=a+"<button onclick=\"alert('click');\">test</button>";
 document.getElementById("genbunspan").innerHTML=b;
 } 
-
