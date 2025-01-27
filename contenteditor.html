@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 
 <html>
@@ -6,10 +7,31 @@
 <head>
 <meta charset="UTF-8"/>
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="https://msl.livedoor.biz/tools/list-square-rounded_solid.png" />
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kampagolfy/web/refs/heads/main/list-square-rounded_solid.png" />
 <title>MSL コンテンツエディター</title>
 
+
+
 <style>
+
+  .CodeMirror-gutters {
+      background: #f7f7f7;
+      border-right: 1px solid #ddd;
+    }
+
+    .custom-gutter {
+      width: 5px;
+    }
+
+    .marker {
+      color: rgb(34, 194, 243);
+      font-size: 14px;
+    }
+
+    .highlighted-line {
+      background-color: #ffffcc; /* Highlight color */
+    }
+
 
 /* CSS */
 .highlighted {
@@ -174,8 +196,51 @@ h1 {
         }
 
 
+/*for link and image popup */
 
+#content {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+        .popup {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            z-index: 10;
+            max-width: 600px;
+            min-width: 600px;
+            overflow-wrap: break-word;
+            font-size:15px;
+            font-weight: normal;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
+        }
+        .popup ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        #linkList li, #imgList li {
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #ccc;
+            overflow-x: auto;
+        }
+        .popup img {
+            max-width: 100px;
+            height: auto;
+            display: inline-block;
+            
+        }
+        #linkContainer:hover #linkPopup,
+        #imgContainer:hover #imgPopup {
+            display: block;
+        }
+
+        /* --------------------------------- */
 </style>
 
 
@@ -195,10 +260,6 @@ h1 {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.1/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.61.1/mode/xml/xml.min.js"></script>
-
-
-
-
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/search/searchcursor.min.js"></script>
@@ -223,7 +284,9 @@ h1 {
 
 
 
-<body onContextmenu="return false;" onload="closepostit()"  >
+<body onContextmenu="return false;" onload="closepostit();"  >
+
+
   <br>
   <style>
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;500;700&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
@@ -246,9 +309,11 @@ h1 {
 
 <div class="zen-maru-gothic" style=" font-weight: 400;">
 <font size="2">
-<a href="https://wiki.workers-hub.com/download/attachments/290109220/contenteditor.html">最新版ダウンロード</a> / 
+<a href="https://wiki.workers-hub.com/download/attachments/290109220/contenteditor.html" target="_blank">最新版ダウンロード</a> / 
 <a href="https://wiki.workers-hub.com/pages/viewpage.action?pageId=290109220" target="_blank">ツールのwiki</a> / <a href="https://wiki.workers-hub.com/pages/viewpage.action?pageId=233308478" target="_blank">ヘルプチームの運用ガイドライン</a></font>
+<br>
 
+<iframe id="iframe_head" scrolling="no" style="border:0;" src="https://kampagolfy.github.io/web2/" width="70%" height="30"></iframe>
 
 </div>
 
@@ -318,7 +383,11 @@ h1 {
 <!--button onclick="makesection_ko()">セクション挿入(KO)</button> <br-->
 <button onclick="list()">リスト</button> <button onclick="shousaisakujo()">▼詳細削除</button><br>
 <button onclick="removeAllStylesAndCleanUp()">remove span and css</button>
-<button onclick="fontred()">赤字</button>
+<button onclick="fontred()">赤字</button><br>
+<button onclick="shinsection()">新セク化</button>
+<button onclick="THka()">TH化</button>
+<br>
+
 
 <br>
 <br>
@@ -346,7 +415,7 @@ h1 {
 		<tr>
 			<td style='vertical-align:top ;' ><b class="zen-maru-gothic"><font size=3>原文 <button style="font-size:6px;" id="genbundivbutton" onclick="genbunclose()">×</button>   &nbsp;&nbsp;<span id="mojisuu" style="color:gray;font-size:12px;"></span></font> 
 </b><hr><p class="zen-maru-gothic" style="font-size:8px;color:white">.</p>
-			<div id="genbundiv">
+			<div id="genbundiv" >
 			<button onclick="jidouka()" title="アコーディオンの冒頭に設定するには、{{title}} を入れてください。
 終了するところは{end}を入れてください">自動化</button>
  
@@ -391,7 +460,33 @@ h1 {
 
 </td>
 
-			<td style='vertical-align:top ;'><b class="zen-maru-gothic"><font size=3>HTML</font><hr></b>
+			<td style='vertical-align:top ;'><b class="zen-maru-gothic"><font size=3>HTML</font>&nbsp;&nbsp;
+<!-- link list -->
+        <div id="linkContainer" style="position:relative; display:inline-block;">
+          <span id="urlcount" style="font-size:15px">0</span>
+                  <svg id="linkIcon" xmlns="http://www.w3.org/2000/svg" data-laicon-version="15.0" viewBox="0 0 20 20" width="20" height="20" fill="currentColor"><g transform="translate(-2 -2)"><path d="M12.0344 4.293c-2.1342-2.1343-5.5945-2.1343-7.7287 0-2.1342 2.1342-2.1342 5.5944 0 7.7286l2.3618 2.3618a5.601 5.601 0 0 0 .2401.2263 6.703 6.703 0 0 1-.0072-2.2561l-1.4633-1.4633c-1.5094-1.5094-1.5094-3.9566 0-5.466 1.5094-1.5093 3.9566-1.5093 5.4659 0l2.3617 2.3618c1.5094 1.5093 1.5094 3.9565 0 5.4659a3.8478 3.8478 0 0 1-2.3007 1.1079c.1286.3596.3369.6971.6249.9851l.433.433c.8694-.2455 1.69-.7104 2.3742-1.3946 2.1342-2.1342 2.1342-5.5945 0-7.7287L12.0344 4.293Z"></path><path d="M11.9832 8.2016c-.8694.2455-1.69.7104-2.3742 1.3947-2.1342 2.1342-2.1342 5.5944 0 7.7286l2.3617 2.3618c2.1342 2.1342 5.5944 2.1342 7.7287 0 2.1342-2.1342 2.1342-5.5945 0-7.7287l-2.3618-2.3618a5.5163 5.5163 0 0 0-.2401-.2262 6.7014 6.7014 0 0 1 .0072 2.2561l1.4633 1.4633c1.5094 1.5093 1.5094 3.9565 0 5.4659-1.5094 1.5094-3.9566 1.5094-5.4659 0l-2.3618-2.3617c-1.5093-1.5094-1.5093-3.9566 0-5.466a3.8492 3.8492 0 0 1 2.3008-1.108 2.6544 2.6544 0 0 0-.6249-.985l-.433-.433Z"></path></g></svg>
+          
+          <div id="linkPopup" class="popup">
+              <ul id="linkList"></ul>
+          </div>
+      </div>
+  
+      &nbsp;
+  <!-- image list -->
+      <div id="imgContainer" style="position:relative; display:inline-block;">
+          <span id="imgcount" style="font-size:15px">0</span>
+          
+          <svg id="imgIcon" xmlns="http://www.w3.org/2000/svg" data-laicon-version="15.0" viewBox="0 0 20 20" width="20" height="20" fill="currentColor"><g transform="translate(-2 -2)"><path d="M4.7507 4.75v14.5h14.499V4.75H4.7507Zm-1.3-.15c0-.6351.5149-1.15 1.15-1.15h14.799c.6351 0 1.15.5149 1.15 1.15v14.8c0 .6351-.5149 1.1499-1.15 1.1499H4.6007c-.6351 0-1.15-.5148-1.15-1.1499V4.6Z"></path><path d="M14.0571 9.5268c0-.5936.4824-1.0748 1.0775-1.0748s1.0775.4812 1.0775 1.0748c0 .5935-.4824 1.0748-1.0775 1.0748s-1.0775-.4812-1.0775-1.0748ZM7.69 15.511l3.8388-5.9841 3.8388 5.9841H7.6899Z"></path></g></svg>
+          
+          
+          
+          
+          <div id="imgPopup" class="popup">
+              <ul id="imgList"></ul>
+          </div>
+      </div>
+        
+        <hr></b>
 			<div style="display: inline-block"><button onclick="htmlhanei()">◀ 反映</button> <button onclick="kaigyou_seiri()">改行整理</button>
 			
  
@@ -404,12 +499,14 @@ Shift-Ctrl-F:Replace
 Shift-Ctrl-R:Replace all"
 >サーチ</button>  <button onclick="editor.execCommand('replace');">リプレース</button> 
  <button id="foldbtn" onclick="foldall()">フォルド</button>
+  <button onclick="extractFromTextarea()">コード詳細</button>
  <button onclick="TextCopy()">コピー</button>
+ <input name="realtime" type="checkbox" hidden/>
  </div>
 
 			<br><br>
 <!★editor>
-			<textarea onmousemove="mouseposition(event)" class="rcorners"  id="editor" onKeyPress="jidouhanei()" onKeyDown="jidouhanei()" onKeyUp="jidouhanei()" ></textarea>
+			<textarea onmousemove="mouseposition(event);" class="rcorners"  id="editor" onKeyPress="jidouhanei()" onKeyDown="jidouhanei()" onKeyUp="jidouhanei()" ></textarea>
 			<p style="text-align:right;"><textarea id="HTML_textarea" class="inputhidden" cols=0 rows=0 ></textarea></p>
 			
 			</td>
@@ -438,6 +535,7 @@ Shift-Ctrl-R:Replace all"
         }
 
         document.getElementById('make-link-button').addEventListener('click', function() {
+          
             const url = prompt("Enter URL:");
             if (!url) {
                 alert("Please enter a valid URL.");
@@ -452,6 +550,7 @@ Shift-Ctrl-R:Replace all"
                     anchor.href = url;
                     anchor.textContent = range.toString();
 					editor.setValue(document.getElementById('Preview_p').innerHTML);
+          updateCounts();
 
                     // Double-click for editing URL
                     anchor.addEventListener('dblclick', function() {
@@ -459,6 +558,7 @@ Shift-Ctrl-R:Replace all"
                         if (newUrl) {
                             anchor.href = newUrl;
 							editor.setValue(document.getElementById('Preview_p').innerHTML);
+              updateCounts();
                         }
                     });
 
@@ -478,6 +578,7 @@ Shift-Ctrl-R:Replace all"
                 }
             }
 			editor.setValue(document.getElementById('Preview_p').innerHTML);
+      updateCounts();
         });
 
         function addEventListenersToContent() {
@@ -530,7 +631,9 @@ Shift-Ctrl-R:Replace all"
 
 
 
-//★★★★★★★★★Editor★★★★★★★★★★★★★★
+//★★★★★★★★★Editor★★★★★★★★★★★★★★//★★★★★★★★★Editor★★★★★★★★★★★★★★//★★★★★★★★★Editor★★★★★★★★★★★★★★
+//★★★★★★★★★Editor★★★★★★★★★★★★★★//★★★★★★★★★Editor★★★★★★★★★★★★★★//★★★★★★★★★Editor★★★★★★★★★★★★★★
+//★★★★★★★★★Editor★★★★★★★★★★★★★★//★★★★★★★★★Editor★★★★★★★★★★★★★★//★★★★★★★★★Editor★★★★★★★★★★★★★★
 
 
 editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
@@ -541,11 +644,42 @@ editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
    //theme: "monokai",
   lineWrapping: true, 
 matchBrackets: true,
-    foldGutter: true,
-    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-		
+gutters: ["custom-gutter", "CodeMirror-linenumbers", "CodeMirror-foldgutter"], // Ensure correct order
+      foldGutter: true,
+      extraKeys: {"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }}
+
+    		
 	
 });
+
+ // Add click event listener to the editor
+ editor.on('gutterClick', function(cm, line) {
+      toggleMarker(cm, line);
+    });
+
+    function makeMarker() {
+      var marker = document.createElement("div");
+      marker.classList.add('marker');
+      marker.innerHTML = "📍"; // Symbol for the marker
+      return marker;
+    }
+
+    function toggleMarker(cm, line) {
+      var info = cm.lineInfo(line);
+      if (info.gutterMarkers && info.gutterMarkers['custom-gutter']) {
+        cm.setGutterMarker(line, 'custom-gutter', null); // Remove the marker
+        cm.removeLineClass(line, 'background', 'highlighted-line'); // Remove highlight
+
+      } else {
+        cm.setGutterMarker(line, 'custom-gutter', makeMarker()); // Add a marker
+        cm.addLineClass(line, 'background', 'highlighted-line'); // Add highlight
+      }
+    }
+
+
+    
+
+
 
 function foldall()
 {
@@ -578,35 +712,58 @@ editor.on("keypress", function() {
   var preview = document.getElementById("Preview_p");
   preview.innerHTML = editor.getValue();
    addEventListenersToContent();
+   updateCounts()
+
 });
 
 editor.on("keyup", function() {
   var preview = document.getElementById("Preview_p");
   preview.innerHTML = editor.getValue();
    addEventListenersToContent();
+   hideTooltip();
+   updateCounts()
 });
 
 editor.on("keydown", function() {
   var preview = document.getElementById("Preview_p");
   preview.innerHTML = editor.getValue();
    addEventListenersToContent();
+   hideTooltip();
+   updateCounts()
 });
 
+editor.on("mouseover", function() {
+  var preview = document.getElementById("Preview_p");
+  preview.innerHTML = editor.getValue();
+  hideTooltip();
+  updateCounts()
+});
 
 document.getElementById("Preview_p").addEventListener("keypress", function() {
   editor.setValue(this.innerHTML);
+   hideTooltip();
   //addEventListenersToContent();
 });
 
 document.getElementById("Preview_p").addEventListener("keyup", function() {
   editor.setValue(this.innerHTML);
+   hideTooltip();
   //addEventListenersToContent();
 });
 
 document.getElementById("Preview_p").addEventListener("keydown", function() {
   editor.setValue(this.innerHTML);
+   hideTooltip();
   //addEventListenersToContent();
 });
+
+document.getElementById("Preview_p").addEventListener("mousedown", function() {
+  editor.setValue(this.innerHTML);
+   hideTooltip();
+  //addEventListenersToContent();
+});
+
+
 
 editor.getWrapperElement().addEventListener("resize", function() {
   editor.setSize(this.style.width, this.style.height);
@@ -1065,7 +1222,18 @@ var a=a.replace(/<td>/g,"<td>\n")
 var a=a.replace(/<\/td>/g,"</td>")
 var a=a.replace(/<\/tr>/g,"\n		</tr>")
 
+//<!--
 
+var a=a.replace(/<!--/g,"\n<!--")
+var a=a.replace(/-->/g,"-->\n")
+
+//font
+var a=a.replace(/<font color="#000000">/g,"\n<font color=\"#000000\">")
+var a=a.replace(/<\/font>/g,"</font>\n")
+
+    
+//div
+var a=a.replace(/<\/div>/g,"</div>\n")
 
 
 
@@ -1390,6 +1558,7 @@ function texttoHTML()
 //document.getElementById("HTML_textarea").value=document.getElementById("Preview_p").innerHTML;
 
 editor.setValue(document.getElementById('Preview_p').innerHTML);
+updateCounts();
 
 }
 
@@ -1397,11 +1566,12 @@ function jidouka()
 {
 
 
-
 //text_to_html();
 
 mongonTH();
 
+//update link and image 
+updateCounts();
 
 
 var a=editor.getValue();
@@ -1450,12 +1620,9 @@ var a=a.replace(/{section sankou end-ja}/g,"</font></div>");
 //■■■■■■■■■■■■■■TH■■■■■■■■■■■■
 
 //---------------section th - 注意
+var a=a.replace(/{section start-th-ข้อควรทราบ}/g,"<div style=\"padding: 10px; margin: 10px 0; border: 1px solid #FF6666; background-color: rgba(255, 0, 0, 0.1);\"> <div style=\"display: flex; align-items: center; justify-content: flex-start;\"><img src=\"https://scdn.line-apps.com/lan/image/line/android/ja/helpArticle/exclamation-triangle_regular_android_jp.png\" style=\"width: 25px;\"><span style=\"font-size: 14pt;color: rgb(0, 0, 0);\">&nbsp;ข้อควรทราบ :</span><br></div><font color=\"#000000\">");
 
-var a=a.replace(/{section start-th-ข้อควรทราบ}/g,"<!-- 注意セクション ここから--><div style='padding: 10px; margin: 10px 0; border: 1px solid #e7d38d; background-color: #fffef7;'><div style='display: flex; align-items: center; justify-content: flex-start;'><img src='https://scdn.line-apps.com/lan/image/line/smartphone/en/helpArticle/lds_exclamation-triangle_solid.png' style='width:25px;'><span style=' font-size: 14pt; color: rgb(0, 0, 0);'>&nbsp;ข้อควรทราบ :</span><br></div><font color='#000000'>");
-
-//var a=a.replace(/{section start-th-ข้อควรทราบ}/g,"<div style=\"padding: 10px; margin: 10px 0; border: 1px solid #FF6666; background-color: rgba(255, 0, 0, 0.1);\"> <div style=\"display: flex; align-items: center; justify-content: flex-start;\"><img src=\"https://scdn.line-apps.com/lan/image/line/android/ja/helpArticle/exclamation-triangle_regular_android_jp.png\" style=\"width: 25px;\"><span style=\"font-size: 14pt;color: rgb(0, 0, 0);\">&nbsp;ข้อควรทราบ :</span><br></div><font color=\"#000000\">");
-
-var a=a.replace(/<\/div><font color=\'\#000000\'><br>/g,"</div><font color=\"#000000\">");
+var a=a.replace(/ข้อควรทราบ :<\/span><br><\/div><font color=\"\#000000\"><br>/g,"ข้อควรทราบ :</span><br></div><font color=\"#000000\">");
 
 var a=a.replace(/{section chuui end-th}/g,"</font></div>");
 
@@ -1463,13 +1630,8 @@ var a=a.replace(/{section chuui end-th}/g,"</font></div>");
 
 
 //---------------section th - 参考
-
-var a=a.replace(/{section start-th-ข้อมูลเพิ่มเติม}/g,"<!-- 参考セクション ここから--><div style='padding: 10px; margin: 10px 0; border: 1px solid #06C755; background-color: rgba(6, 199, 85, 0.1);'><div style='display: flex; align-items: center; justify-content: flex-start;'><img src='https://scdn.line-apps.com/lan/image/line/smartphone/en/helpArticle/lds_info-circle_solid.png' style='width: 25px;'><b><span style='color: rgb(0, 0, 0);'>&nbsp;ข้อมูลเพิ่มเติม :</span></b><br></div><font color='#000000'>");
-
-
-//var a=a.replace(/{section start-th-ข้อมูลเพิ่มเติม}/g,"<div style=\"padding: 10px; margin: 10px 0; border: 1px solid #06C755; background-color: rgba(6, 199, 85, 0.1);\"><div style=\"display: flex; align-items: center; justify-content: flex-start;\"><img src=\"https://scdn.line-apps.com/lan/image/line/android/ja/helpArticle/info-circle_regular_android_jp.png\" style=\"width: 25px;\"><b><span style=\"color: rgb(0, 0, 0);\">&nbsp;ข้อมูลเพิ่มเติม :</span></b><br></div><font color=\"#000000\">");
-
-var a=a.replace(/<font color=\'\#000000\'><br>/g,"<font color=\'#000000\'>");
+var a=a.replace(/{section start-th-ข้อมูลเพิ่มเติม}/g,"<div style=\"padding: 10px; margin: 10px 0; border: 1px solid #06C755; background-color: rgba(6, 199, 85, 0.1);\"><div style=\"display: flex; align-items: center; justify-content: flex-start;\"><img src=\"https://scdn.line-apps.com/lan/image/line/android/ja/helpArticle/info-circle_regular_android_jp.png\" style=\"width: 25px;\"><b><span style=\"color: rgb(0, 0, 0);\">&nbsp;ข้อมูลเพิ่มเติม :</span></b><br></div><font color=\"#000000\">");
+var a=a.replace(/ข้อมูลเพิ่มเติม :<\/span><\/b><br><\/div><font color=\"\#000000\"><br>/g,"ข้อมูลเพิ่มเติม :</span></b><br></div><font color=\"#000000\">");
 
 //---------------section th - 参考 end
 
@@ -1589,7 +1751,9 @@ editor.setValue(d);
 function htmlhanei()
 {
 document.getElementById("Preview_p").innerHTML=editor.getValue();
- addEventListenersToContent();
+  addEventListenersToContent();
+  hideTooltip();
+  updateCounts();
  
 }
 
@@ -1598,6 +1762,7 @@ function closepostit()
 {
 document.getElementById("mydiv").style.display="none";
 //document.getElementById("risuto").style.display="none";
+document.getElementById("iframe_head").contentDocument.location.reload(true);
 
 }
 
@@ -1897,18 +2062,113 @@ document.getElementById("Preview_p").innerHTML=editor.getValue();
 
 }
 
-   
-  
+function shinsection()
+{
+var a=document.getElementById("Preview_p").innerHTML;
+
+var a=a.replace(/#FF6666/g,"#e7d38d")
+var a=a.replace(/rgba\(255, 0, 0, 0.1\)/g,"#fffef7")
+var a=a.replace(/android\/ja\/helpArticle\/exclamation-triangle_regular_android_jp.png/g,"smartphone/en/helpArticle/lds_exclamation-triangle_solid.png");
+var a=a.replace(/android\/ja\/helpArticle\/info-circle_regular_android_jp.png/g,"smartphone/en/helpArticle/lds_info-circle_solid.png");
+
+
+
+document.getElementById("Preview_p").innerHTML=a;
+editor.setValue(a);
+}
+
+
+function THka()
+{
+var a=document.getElementById("Preview_p").innerHTML;
+var a=a.replace(/font-size: 12pt;/g,"")
+var a=a.replace(/font-size: 14pt;/g,"font-size: 12pt;")
+var a=a.replace(/font-size: 16pt;/g,"font-size: 12pt;")
+var a=a.replace(/alt="ข้อมูลเพิ่มเติม :"/g,"")
+var a=a.replace(/&nbsp;ข้อมูลเพิ่มเติม :/g,"<b>&nbsp;ข้อมูลเพิ่มเติม :</b>")
+var a=a.replace(/<b><span style=" color: rgb(0, 0, 0);">-<\/span><\/b><br>/g,"")
+var a=a.replace(/alt="ข้อควรทราบ :"/g,"")
+
+
+document.getElementById("Preview_p").innerHTML=a;
+editor.setValue(a);
+
+}
+
+
+// for link and image function
+
+        document.getElementById('editor').addEventListener('input', updateCounts);
+        document.getElementById('linkIcon').addEventListener('mouseover', showLinks);
+        document.getElementById('imgIcon').addEventListener('mouseover', showImages);
+
+        function updateCounts() {
+            const text = editor.getValue();
+
+            const linkCount = (text.match(/<a[^>]*>.*?<\/a>/gi) || []).length;
+            document.getElementById('urlcount').innerText = linkCount;
+
+            const imgCount = (text.match(/<img [^>]*src="([^"]*)"/gi) || []).length;
+            document.getElementById('imgcount').innerText = imgCount;
+        }
+
+        function showLinks() {
+            const text = editor.getValue();;
+            const links = text.match(/<a[^>]*>.*?<\/a>/gi) || [];
+            const linkList = document.getElementById('linkList');
+            linkList.innerHTML = '';
+
+            if (links.length > 0) {
+                links.forEach(link => {
+                    const linkTextMatch = link.match(/>(.*?)<\/a>/);
+                    const hrefMatch = link.match(/href="([^"]*)"/);
+                    const nameMatch = link.match(/name="([^"]*)"/);
+
+                    const linkText = linkTextMatch ? linkTextMatch[1] : 'No Text';
+                    const hrefOrName = hrefMatch ? hrefMatch[1] : (nameMatch ? nameMatch[1] : '');
+
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `<strong>${linkText}</strong> : <br>${hrefOrName}`;
+                    linkList.appendChild(listItem);
+                });
+            } else {
+                linkList.innerHTML = '<li>No links</li>';
+            }
+        }
+
+        function showImages() {
+            const text = editor.getValue();;
+            const images = text.match(/<img [^>]*src="([^"]*)"[^>]*>/gi) || [];
+            const imgList = document.getElementById('imgList');
+            imgList.innerHTML = '';
+
+            if (images.length > 0) {
+                images.forEach(imgTag => {
+                    const srcMatch = imgTag.match(/src="([^"]*)"/);
+                    const altMatch = imgTag.match(/alt="([^"]*)"/);
+                    const styleMatch = imgTag.match(/style="([^"]*)"/);
+
+                    const src = srcMatch ? srcMatch[1] : '';
+                    const alt = altMatch ? altMatch[1] : 'No alt';
+                    const style = styleMatch ? styleMatch[1] : 'max-width:100%; height:auto;';
+
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <img alt="${alt}" src="${src}" style="${style}">
+                        <span>&lt;img alt="${alt}" src="${src}" style="${style}"&gt;</span>`;
+                    
+                    imgList.appendChild(listItem);
+                });
+            } else {
+                imgList.innerHTML = '<li>No images</li>';
+            }
+        }
+  //  ---------------------------------------------
+
 </script>
 
 
 
-
-
-
-
-
 </body>
-
 
 </html>
