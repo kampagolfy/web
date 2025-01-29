@@ -284,8 +284,6 @@ h1 {
 
 
 <body onContextmenu="return false;" onload="closepostit();"  >
-
-
   <br>
   <style>
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;500;700&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
@@ -338,11 +336,6 @@ h1 {
 		<tr>
 			<td style='vertical-align:top'>
 
-<button onclick="makebold()">Bold</button><br><br>
-<button onclick="midashi16()">見出し①16</button>
-<button onclick="midashi14()">見出し②14</button>
-<button onclick="midashi12()">見出し③12</button>
-<br><br>
 
 セク:注意 <button onclick="makesection_ja_text_chuui()" title="セクション化したい部分を選択してからこのボタンをクリック">JA</button>
  <button onclick="makesection_th_text_chuui()" title="セクション化したい部分を選択してからこのボタンをクリック">TH</button>
@@ -369,7 +362,7 @@ h1 {
  <button onclick="document.execCommand('insertText', false, '{└----------------------3end----------------------┘}');">アコ3重end</button><br><br>
 </td>
 			<td style='vertical-align:top'>
-<button>リンク</button> <button onclick="link2()">リンクターゲット</button>
+<button id="link-button2">リンク</button>
 
 
 <button onclick="document.execCommand('forecolor', false,'#00B050');editor.setValue(document.getElementById('Preview_p').innerHTML);">グリーン</button>
@@ -437,7 +430,6 @@ h1 {
 
 			<td style='vertical-align:top ;width:700px'><b class="zen-maru-gothic"><font size=3>プレビュー</font><hr></b>
 			<button onclick="texttoHTML()">HTML更新 ▶</button> <button id="link-button">リンク</button>
-			<button onclick="link2()">リンクターゲット</button>
 			<button onclick="Preview()">プレビュー</button> 
 
 <button onclick="clearformat()" title="選択してクリックするとフォーマットクリアします。<br>タグ以外は削除されます">クリア</button>
@@ -1266,12 +1258,7 @@ showAlertgreen("コードをコピーしました");
 	
 }
 
-function makebold()
-{
-var selObj = window.getSelection(); 
-var text="<b>"+selObj+"</b>";
-document.execCommand('insertText', false, text);
-}
+
 
 //function makesection_ko()
 //{
@@ -1342,26 +1329,6 @@ document.execCommand("insertHTML", false, "&nbsp; &nbsp;<img src='https://scdn.l
 //style='width: 10px; vertical-align: middle'>
 }
 
-function midashi12()
-{
-var selObj = window.getSelection(); 
-var text="{{--見出し③12pt : "+selObj+"--}}";
-document.execCommand('insertText', false, text);
-}
-
-function midashi14()
-{
-var selObj = window.getSelection(); 
-var text="{{--見出し②14pt : "+selObj+"--}}";
-document.execCommand('insertText', false, text);
-}
-
-function midashi16()
-{
-var selObj = window.getSelection(); 
-var text="{{--見出し①16pt : "+selObj+"--}}";
-document.execCommand('insertText', false, text);
-}
 
 function acco()
 {
@@ -2110,22 +2077,25 @@ editor.setValue(a);
 
 
 <div id="popup_link">
-    <label for="title-input" style="text-align: left;">Title:</label>
+    <label for="title-input">Title:</label>
     <input type="text" id="title-input">
-    <div class="checkbox-row" style="text-align: left;">
-      Enter URL: &nbsp;&nbsp;&nbsp; <input type="checkbox" id="target-blank-checkbox" style="width:20px">&nbsp;target = "_blank"
-            
-    </div>
+    <label for="url-input">Enter URL:</label>
     <input type="text" id="url-input">
-    
+    <div class="checkbox-row">
+        <input type="checkbox" id="target-blank-checkbox">
+        <label for="target-blank-checkbox" style="margin-left: 5px;">Open in new tab</label>
+    </div>
+    <div class="button-row">
         <button id="create-link">Insert</button>&nbsp;
         <button id="close-popup">Cancel</button>
         <button id="open-link" disabled>Open</button>
     </div>
 </div>
 
+
 <script>
     const linkButton = document.getElementById('link-button');
+    const linkButton2 = document.getElementById('link-button2'); // Reference to new button
     const popup_link = document.getElementById('popup_link');
     const urlInput = document.getElementById('url-input');
     const titleInput = document.getElementById('title-input');
@@ -2133,19 +2103,22 @@ editor.setValue(a);
     const createLinkButton = document.getElementById('create-link');
     const closePopupButton = document.getElementById('close-popup');
     const openLinkButton = document.getElementById('open-link');
-    const editableDiv = document.getElementById('Preview_P');
+    const editableDiv = document.getElementById('editable-div');
     let selectedTextRange;
     let currentLink;
 
-    linkButton.addEventListener('click', () => {
-        const selection = window.getSelection();
-        if (selection.rangeCount > 0) {
-            selectedTextRange = selection.getRangeAt(0);
-            if (!selectedTextRange.collapsed) {
-                titleInput.value = selectedTextRange.toString();
-                showPopup();
+    // Event listener for both the original and new link buttons
+    [linkButton, linkButton2].forEach(button => {
+        button.addEventListener('click', () => {
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+                selectedTextRange = selection.getRangeAt(0);
+                if (!selectedTextRange.collapsed) {
+                    titleInput.value = selectedTextRange.toString();
+                    showPopup();
+                }
             }
-        }
+        });
     });
 
     createLinkButton.addEventListener('click', insertOrUpdateLink);
@@ -2154,7 +2127,6 @@ editor.setValue(a);
         input.addEventListener('keyup', (event) => {
             if (event.key === 'Enter') {
                 insertOrUpdateLink();
-                editor.setValue(document.getElementById('Preview_p').innerHTML);
             }
         });
     });
@@ -2168,8 +2140,7 @@ editor.setValue(a);
     openLinkButton.addEventListener('click', () => {
         const url = urlInput.value.trim();
         if (url) {
-          window.open(url, '_blank');
-
+            window.open(url, '_blank');
         }
     });
 
@@ -2179,21 +2150,20 @@ editor.setValue(a);
             urlInput.value = currentLink.href;
             titleInput.value = currentLink.textContent;
             openLinkButton.disabled = !urlInput.value.trim();
+            targetBlankCheckbox.checked = currentLink.target === '_blank';
             const rect = currentLink.getBoundingClientRect();
             popup_link.style.top = `${rect.top + window.scrollY + 20}px`;
             popup_link.style.left = `${rect.left + window.scrollX}px`;
             popup_link.style.display = 'block';
             urlInput.focus();
-            editor.setValue(document.getElementById('Preview_p').innerHTML);
-            //htmlhanei();
         }
     });
 
-    //window.addEventListener('click', (event) => {
-      //  if (!popup_link.contains(event.target) && event.target !== linkButton) {
-        //    closePopup();
-        //}
-    //});
+    window.addEventListener('click', (event) => {
+        if (!popup_link.contains(event.target) && ![linkButton, linkButton2].includes(event.target)) {
+            closePopup();
+        }
+    });
 
     function showPopup() {
         if (selectedTextRange) {
@@ -2242,18 +2212,16 @@ editor.setValue(a);
             selectedTextRange.deleteContents();
             selectedTextRange.insertNode(a);
             selectedTextRange = null;
-            
         }
-
         editor.setValue(document.getElementById('Preview_p').innerHTML);
-        //htmlhanei();
+        htmlhanei();
+
 
         currentLink = null;
         closePopup();
-               
-
     }
 </script>
+
 
 </body>
 </html>
