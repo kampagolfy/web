@@ -6,8 +6,10 @@
 <head>
 <meta charset="UTF-8"/>
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kampagolfy/web/refs/heads/main/list-square-rounded_solid.png" />
-<title>MSL コンテンツエディター</title>
+
+ <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kampagolfy/web/refs/heads/main/list-square-rounded_solid.png" />
+
+ <title>MSL コンテンツエディター</title>
 
 
 
@@ -2078,13 +2080,13 @@ editor.setValue(a);
 
 
 <div id="popup_link">
-    <label for="title-input">Title:</label>
+    <label for="title-input" style="text-align: left;">Title:</label>
     <input type="text" id="title-input">
-    <label for="url-input">Enter URL:</label>
+    <label for="url-input" style="text-align: left;">Enter URL:</label>
     <input type="text" id="url-input">
     <div class="checkbox-row">
-        <input type="checkbox" id="target-blank-checkbox">
-        <label for="target-blank-checkbox" style="margin-left: 5px;">Open in new tab</label>
+        <input type="checkbox" id="target-blank-checkbox" style="width:20px">
+        <label for="target-blank-checkbox" style="margin-left: 5px;text-align: left;">add "_blank"</label>
     </div>
     <div class="button-row">
         <button id="create-link">Insert</button>&nbsp;
@@ -2148,7 +2150,7 @@ editor.setValue(a);
     Preview_p.addEventListener('dblclick', (event) => {
         if (event.target.tagName.toLowerCase() === 'a') {
             currentLink = event.target;
-            urlInput.value = currentLink.href;
+            urlInput.value = decodeURIComponent(currentLink.href)
             titleInput.value = currentLink.textContent;
             openLinkButton.disabled = !urlInput.value.trim();
             targetBlankCheckbox.checked = currentLink.target === '_blank';
@@ -2221,6 +2223,8 @@ editor.setValue(a);
         currentLink = null;
         closePopup();
     }
+  
+    
 </script>
 
 
