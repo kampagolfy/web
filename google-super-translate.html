@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>Google Super Translate by Golfy</title>
+    <link rel="icon" type="image/png" href="translation.png" />
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-size: 1rem; /* Base font size */
+            box-sizing: border-box;
+        }
+        *, *::before, *::after {
+            box-sizing: inherit;
+        }
+        table {
+            width: 90vw; /* Adjust to viewport width */
+            table-layout: fixed;
+            border: 1px solid gray;
+            margin-bottom: 20px;
+        }
+        td {
+            vertical-align: top;
+            padding: 5px;
+            border: 1px solid gray;
+        }
+        .trandiv {
+            overflow: auto;
+            text-align: left;
+            border: none;
+            height: 100%;
+            font-size: 1rem;
+            resize: vertical;
+        }
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            resize: none;
+            border: none;
+            overflow: hidden;
+            font-size: 1rem;
+            min-height: 25px;
+            max-height: 50px;
+            display: block;
+            outline:none;
+            
+        }
+        #input {
+            width: 100%;
+            min-height: 200px;
+            resize: vertical;
+        }
+        #alltranslated {
+            height: 200px;
+            max-height: 50vh; /* Responsive max-height */
+            overflow: auto;
+            resize: vertical;
+            font-family: Meiryo;
+            font-weight: normal;
+        }
+        .translation-section {
+            display: none;
+            width: 90vw; /* Adjust to viewport width */
+        }
+        @media (max-width: 768px) {
+            table, .translation-section {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<br>
+<body>
+    <center>
+        <table style="border:none;">
+            <thead>
+                <tr>
+                    <th>
+                        <textarea id="input" style="resize:vertical;border: solid 1px;overflow: auto;">Enter Text</textarea>
+                        <div style="text-align: left;">
+                            <input type="checkbox" id="usehtml"> Use HTML
+                        </div>
+                    </th>
+                    <th style="vertical-align:top;padding-left:5px;padding-right: 5px;">
+                        <div contenteditable=true id="alltranslated" style="border: 1px solid;padding-left:5px;text-align: left;"></div>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+
+        Translate to: <div id="google_translate_element"></div>
+        <button onclick="translatetext()">Translate</button>
+        
+        <br><br>
+        <table class="translation-section" id="translationSection">
+            <thead>
+                <tr>
+                    <th>Original Text</th>
+                    <th>Translated Text</th>
+                </tr>
+            </thead>
+            <tbody id="translationTable">
+                <!-- Translated text will appear here -->
+            </tbody>
+        </table>
+    </center>
+
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'jp',
+                includedLanguages: 'ja,en,th,zh-TW,zh-CN,ko,id',
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        function adjustTextareaHeight(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = (textarea.scrollHeight) + 'px';
+        }
+
+        function translatetext() {
+            var checkbox = document.getElementById("usehtml");
+            var input = document.getElementById("input").value;
+            var tableBody = document.getElementById("translationTable");
+
+            // Show the translation section
+            var translationSection = document.getElementById("translationSection");
+            translationSection.style.display = "table";
+
+            // Handle checkbox for HTML usage
+            if (checkbox.checked == true){
+                document.getElementById("alltranslated").innerHTML = input;
+            } else {
+                var a = input.replace(/\n/g, "<br>");
+                document.getElementById("alltranslated").innerHTML = a;            
+            }
+
+            // Clear previous output
+            tableBody.innerHTML = "";
+
+            var lines = input.split('\n');
+            lines.forEach((line, index) => {
+                var row = document.createElement('tr');
+
+                // Original text textarea cell
+                var originalCell = document.createElement('td');
+                var originalTextarea = document.createElement('textarea');
+                originalTextarea.value = line || "";
+                adjustTextareaHeight(originalTextarea);
+                originalTextarea.addEventListener('input', function() {
+                    adjustTextareaHeight(this);
+                });
+                originalCell.appendChild(originalTextarea);
+
+                // Translated text cell
+                var translatedCell = document.createElement('td');
+                var containerDiv = document.createElement('div');
+                containerDiv.className = 'trandiv';
+                
+                var translatedText = line; // Placeholder for actual translation logic
+                containerDiv.innerHTML = checkbox.checked ? (translatedText || "&nbsp;") : (translatedText || "").replace(/<br>/g, "\n") || "&nbsp;";
+
+                // Make div editable on double click
+                containerDiv.addEventListener('dblclick', function() {
+                    this.contentEditable = true;
+                    this.focus();
+                });
+
+                // Turn off contenteditable on blur and update main translated div
+                containerDiv.addEventListener('blur', function() {
+                    this.contentEditable = false;
+                    updateMainTranslation();
+                });
+
+                translatedCell.appendChild(containerDiv);
+                row.appendChild(originalCell);
+                row.appendChild(translatedCell);
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+        function updateMainTranslation() {
+    var allTranslationContent = '';
+    var rows = document.getElementById("translationTable").getElementsByTagName('tr');
+    var useHtmlCheckbox = document.getElementById("usehtml");
+    
+    for (var i = 0; i < rows.length; i++) {
+        var translatedContent = rows[i].getElementsByTagName('td')[1].querySelector('.trandiv').innerHTML;
+
+        if (useHtmlCheckbox.checked) {
+            allTranslationContent += translatedContent; // Add without <br> if HTML is used
+        } else {
+            allTranslationContent += translatedContent + "<br>"; // Add <br> for non-HTML text
+        }
+    }
+
+    document.getElementById("alltranslated").innerHTML = allTranslationContent;
+}
+    </script>
+
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
