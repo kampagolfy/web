@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <html>
@@ -64,13 +63,14 @@ outline: 0px solid transparent;
   height: 900px;
   resize: both;
   overflow: auto;
+  
 }
 
 .rcorners2 {
   border-radius: 10px;
   border: 1px solid gray;
   padding: 10px; 
-  font-family:Meiryo;
+  font-family:Zen Maru Gothic;
 font-size: 14px; 
 /*font-weight: 376;*/
 height: auto;
@@ -81,9 +81,7 @@ height: auto;
   border-radius: 10px;
   border: 1px solid gray;
   padding: 10px; 
-font-family : Meiryo,Leelawadee UI;
-font-size: 14px; 
-font-weight: 376;
+font-size: 13px; 
 height: auto;
 }
 
@@ -241,6 +239,22 @@ h1 {
             display: block;
         }
 
+
+        .move-up-text {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            font-family: "Zen Maru Gothic";
+  font-weight: 700;
+  font-style: normal;
+  font-size:28px;
+        }
+
+        .move-up-text:hover {
+            transform: translateY(-15px);
+            color:blue;
+        }
+
+
         /* --------------------------------- */
 </style>
 
@@ -290,7 +304,7 @@ h1 {
   <style>
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;500;700&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
 .zen-maru-gothic {
-  font-family: "Zen Maru Gothic", system-ui;
+  font-family: "Zen Maru Gothic";
   font-weight: 700;
   font-style: normal;
   font-size:28px;
@@ -298,13 +312,21 @@ h1 {
   
  button
  {
-  font-family: "Zen Maru Gothic", system-ui;
+  font-family: "Zen Maru Gothic";
   font-weight: 400;
+  padding:2px;
+
  } 
 </style>
 <center>
 
-<div class="zen-maru-gothic">MSL コンテンツエディター</div>
+<div class="zen-maru-gothic">
+
+  <span class="move-up-text">M</span><span class="move-up-text">S</span><span class="move-up-text">L </span>
+  <span class="move-up-text"></span><span class="move-up-text">コ</span><span class="move-up-text">ン</span><span class="move-up-text">テ</span><span class="move-up-text">ン</span><span class="move-up-text">ツ</span><span class="move-up-text">エ</span><span class="move-up-text">デ</span><span class="move-up-text">ィ</span><span class="move-up-text">タ</span><span class="move-up-text">ー</span>
+  
+
+</div>
 
 <div class="zen-maru-gothic" style=" font-weight: 400;">
 <font size="2">
@@ -321,11 +343,10 @@ h1 {
 
 
 
-<div id="mydiv" class="rcorners">
+<div id="mydivmemo" class="rcorners">
 <div onclick="closepostit()" id="closepostit" style="text-align: right;">Ⓧ</div><div onclick="makeinserttext()">≡</div>
-  <div id="mydivheader">メモ</div>
+  <div id="mydivmemoheader">メモ</div>
   <p><textarea id="inserttextarea" cols="40" rows="10" style="padding: 10px 10px;"></textarea></p>
-
 </div>
 
 <div class="my-contextmenu" id="js-contextmenu" >
@@ -406,7 +427,7 @@ h1 {
 			<td style='vertical-align:top ;width:400px'></td>
 		</tr>
 		<tr>
-			<td style='vertical-align:top ;' ><b class="zen-maru-gothic"><font size=3>原文 <button style="font-size:6px;" id="genbundivbutton" onclick="genbunclose()">×</button>   &nbsp;&nbsp;<span id="mojisuu" style="color:gray;font-size:12px;"></span></font> 
+			<td style='vertical-align:top ;' ><b class="zen-maru-gothic"><font size=3><span onclick="shoowcount()">原文</span> <button style="font-size:6px;" id="genbundivbutton" onclick="genbunclose()">×</button>   &nbsp;&nbsp;<span id="mojisuu" style="color:gray;font-size:12px;"></span></font> 
 </b><hr><p class="zen-maru-gothic" style="font-size:8px;color:white">.</p>
 			<div id="genbundiv" >
 			<button onclick="jidouka()" title="アコーディオンの冒頭に設定するには、{{title}} を入れてください。
@@ -434,7 +455,7 @@ h1 {
 			<button onclick="texttoHTML()">HTML更新 ▶</button> <button id="link-button">リンク</button>
 			<button onclick="Preview()">プレビュー</button> 
 
-<button onclick="clearformat()" title="選択してクリックするとフォーマットクリアします。<br>タグ以外は削除されます">クリア</button>
+<button onclick="clearformat()" title="選択してクリックするとフォーマットクリアします。<br>/<a>/<b>タグ以外,styleは削除されます">クリア</button>
 <button onclick="fontsizechange()" title="見出しを設定したい文字列を選択してからクリック">見出し</button>
 <button onclick="fontsizechange_underline()" title="見出し+下線を設定したい文字列を選択してからクリック">見出し+下線</button>
 <button onclick="insertselectHTML()">HTML挿入</button>
@@ -445,7 +466,7 @@ h1 {
 			<br><br>
 
 <!★Preview_p>
-			<div style="height:1000px; min-height:1000px; min-width:720px; overflow: auto; resize: both;font-size:15px"onmousemove="mouseposition(event);" class="rcorners"  id="Preview_p" contenteditable=true></div>
+			<div style="height:1000px; min-height:1000px; min-width:720px; overflow: auto; resize: both;font-size:13px;"onmousemove="mouseposition(event);" class="rcorners"  id="Preview_p" contenteditable=true></div>
 <br>
 
 <br>
@@ -491,8 +512,7 @@ Shift-Ctrl-F:Replace
 Shift-Ctrl-R:Replace all"
 >サーチ</button>  <button onclick="editor.execCommand('replace');">リプレース</button> 
  <button id="foldbtn" onclick="foldall()">フォルド</button>
-  <button onclick="extractFromTextarea()">コード詳細</button>
- <button onclick="TextCopy()">コピー</button>
+  <button onclick="TextCopy()">コピー</button>
  <input name="realtime" type="checkbox" hidden/>
  </div>
 
@@ -1017,9 +1037,7 @@ function getSelectedHtml() {
     return html;
 }
 
-function removeHtmlTagsExceptBr(html) {
-    return html.replace(/<(?!br\s*\/?)[^>]+>/g, '');
-}
+
 
 function makeinserttext()
 {
@@ -1097,26 +1115,40 @@ editor.setValue(a);
 
 }
 
+function clearformat() {
+    var html = getSelectedHtml();
+    var result = removeHtmlTagsExceptBrAB(html);
 
+    // Insert the cleaned HTML content
+    document.execCommand('insertHTML', false, result);
 
+    // Update the editor's value with the cleaned content
+    editor.setValue(document.getElementById("Preview_p").innerHTML);
 
-function clearformat()
-{
+    kaigyou_seiri();
+    htmlhanei(); 
 
-var html = getSelectedHtml();
-var text = getSelectedText();
-var result = removeHtmlTagsExceptBr(html);
-var  a=text.replace(/\n/g, '<br>');
-
-//var selObj = window.getSelection(); 
-//var selObj2 = selObj;
-
-//document.execCommand('insertHTML', false, selObj2);
-//document.execCommand('insertHTML', false, result);
-document.execCommand('insertHTML', false, a);
-
-editor.setValue(document.getElementById("Preview_p").innerHTML);
 }
+
+function removeHtmlTagsExceptBrAB(html) {
+    return html
+        .replace(/<br[^>]*>/gi, '<br>')                  // Retain clean <br> tags
+        .replace(/<a\b([^>]*)>(.*?)<\/a>/gi, function(match, attributes, content) {
+            // Remove style attribute while preserving <a> tags
+            attributes = attributes.replace(/\s*style="[^"]*"/gi, '');
+            return `<a${attributes}>${content}</a>`;
+        })
+        .replace(/<b\b([^>]*)>/gi, function(match, attributes) {
+            // Remove style attribute while preserving <b> tags
+            attributes = attributes.replace(/\s*style="[^"]*"/gi, '');
+            return `<b${attributes}>`;
+        })
+        .replace(/<(?!br\b|\/?a\b|\/?b\b)[^>]+>/gi, '')  // Remove all other tags except <br>, <a>, and <b>
+        .replace(/\s*style="[^"]*"/gi, '');              // Finally, remove remaining style attributes
+}
+
+
+
 
 function kaigyou_seiri()
 {
@@ -1617,7 +1649,7 @@ document.getElementById("Preview_p").innerHTML=editor.getValue();
 
 function closepostit()
 {
-document.getElementById("mydiv").style.display="none";
+document.getElementById("mydivmemo").style.display="none";
 //document.getElementById("risuto").style.display="none";
 document.getElementById("iframe_head").contentDocument.location.reload(true);
 
@@ -1625,7 +1657,7 @@ document.getElementById("iframe_head").contentDocument.location.reload(true);
 
 function openpostit()
 {
-document.getElementById("mydiv").style.display="block";
+document.getElementById("mydivmemo").style.display="block";
 }
 
 
@@ -1633,15 +1665,16 @@ document.getElementById("mydiv").style.display="block";
 
 
 <style>
-#mydiv {
+#mydivmemo {
   position: absolute;
   z-index: 9;
   background-color: #f1f1f1;
   text-align: center;
   border: 1px solid black;
+  display: none;
 }
 
-#mydivheader {
+#mydivmemoheader {
   padding: 10px;
   cursor: move;
   z-index: 10;
@@ -1655,7 +1688,7 @@ document.getElementById("mydiv").style.display="block";
 
 <script>
 //Make the DIV element draggagle:
-dragElement(document.getElementById("mydiv"));
+dragElement(document.getElementById("mydivmemo"));
 
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -1751,14 +1784,15 @@ function copyRichText() {
 	var aa=aa.replace(/▼/g,"");
 	var aa=aa.replace(/▽/g,"");
 	var aa=aa.replace(/⇒/g,"");
+  var aa=aa.replace(/-/g,"--");
+  var aa=aa.replace(/-- /g,"");
+  var aa=aa.replace(/--/g,"-");
 	
 	var aa=aa.replace(/\/\//g,"");
 	
 	//var aa=aa.replace(/-/g,"");
 	
 	var aa=aa.replace(/<\/b>><b>/g,"</b>&gt;<b>");
-	
-	
 	var aa=aa.replace(/<b>/g,"");
 	var aa=aa.replace(/<\/b>/g,"");
 	var aa=aa.replace(/\[/g,"<b>[");
@@ -1786,7 +1820,9 @@ function copyRichText() {
 	
 	var aa=aa.replace(/<b><b>/g,"<b>");
 	
+
 	document.getElementById("Text_textarea").value=aa;
+  
 	
 	const leftText = document.getElementById("Text_textarea").value;
     const rightText = editor.getValue();
@@ -1821,8 +1857,8 @@ addEventListenersToContent();
     	
 	var aa=document.getElementById("Text_textarea").value;
 	
-	var aa=aa.replace(/▼/g,"");
-	var aa=aa.replace(/\/\//g,"");
+	//var aa=aa.replace(/▼/g,"");
+	//var aa=aa.replace(/\/\//g,"");
 	
 		//tobedone-done
 	var aa=aa.replace(/To be checked/g,"Done");
@@ -2046,6 +2082,7 @@ editor.setValue(a);
             z-index: 1000;
             width:300px;
             border-radius: 2%;
+            font-family:"Zen Maru Gothic";
 
         }
         #popup_link label,
@@ -2076,23 +2113,23 @@ editor.setValue(a);
     </style>
 
     
-</div>
+
 
 
 <div id="popup_link">
-    <label for="title-input" style="text-align: left;">Title:</label>
-    <input type="text" id="title-input">
-    <label for="url-input" style="text-align: left;">Enter URL:</label>
-    <input type="text" id="url-input">
-    <div class="checkbox-row">
-        <input type="checkbox" id="target-blank-checkbox" style="width:20px">
-        <label for="target-blank-checkbox" style="margin-left: 5px;text-align: left;">add "_blank"</label>
-    </div>
-    <div class="button-row">
-        <button id="create-link">Insert</button>&nbsp;
-        <button id="close-popup">Cancel</button>
-        <button id="open-link" disabled>Open</button>
-    </div>
+  <label for="title-input" style="text-align: left;">タイトル:</label>
+  <input type="text" id="title-input">
+  <label for="url-input" style="text-align: left;">URL:</label>
+  <input type="text" id="url-input">
+  <div class="checkbox-row">
+      <input type="checkbox" id="target-blank-checkbox" style="width:20px">
+      <label for="target-blank-checkbox" style="margin-left: 5px;text-align: left;">ターゲット "_blank"</label>
+  </div>
+  <div class="button-row">
+      <button id="create-link">挿入</button>&nbsp;
+      <button id="close-popup">キャンセル</button>
+      <button id="open-link" disabled>開く</button>
+  </div>
 </div>
 
 
@@ -2147,40 +2184,114 @@ editor.setValue(a);
         }
     });
 
-    Preview_p.addEventListener('dblclick', (event) => {
-        if (event.target.tagName.toLowerCase() === 'a') {
-            currentLink = event.target;
-            urlInput.value = decodeURIComponent(currentLink.href)
-            titleInput.value = currentLink.textContent;
-            openLinkButton.disabled = !urlInput.value.trim();
-            targetBlankCheckbox.checked = currentLink.target === '_blank';
-            const rect = currentLink.getBoundingClientRect();
-            popup_link.style.top = `${rect.top + window.scrollY + 20}px`;
-            popup_link.style.left = `${rect.left + window.scrollX}px`;
-            popup_link.style.display = 'block';
-            urlInput.focus();
-        }
-    });
+   // Add event listener for double-click
+Preview_p.addEventListener('dblclick', (event) => {
+    if (event.target.tagName.toLowerCase() === 'a') {
+        currentLink = event.target;
+        urlInput.value = decodeURIComponent(currentLink.href);
+        titleInput.value = currentLink.textContent;
+        openLinkButton.disabled = !urlInput.value.trim();
+        targetBlankCheckbox.checked = currentLink.target === '_blank';
+        const rect = currentLink.getBoundingClientRect();
 
-    window.addEventListener('click', (event) => {
-        if (!popup_link.contains(event.target) && ![linkButton, linkButton2].includes(event.target)) {
-            closePopup();
-        }
-    });
-
-    function showPopup() {
         if (selectedTextRange) {
-            const rect = selectedTextRange.getBoundingClientRect();
+        const rect = selectedTextRange.getBoundingClientRect();
+        const isNearBottom = rect.top + rect.height + 200 > window.innerHeight;
+
+        if (isNearBottom) {
+            popup_link.style.top = '50%';
+            popup_link.style.left = '50%';
+            popup_link.style.transform = 'translate(-50%, -50%)';
+        } else {
             popup_link.style.top = `${rect.top + window.scrollY + 20}px`;
             popup_link.style.left = `${rect.left + window.scrollX}px`;
+            popup_link.style.transform = 'translate(0, 0)';
         }
-        popup_link.style.display = 'block';
-        urlInput.value = '';
-        titleInput.value = titleInput.value || '';
-        openLinkButton.disabled = true;
-        targetBlankCheckbox.checked = false;
-        urlInput.focus();
     }
+
+
+        popup_link.style.top = `${rect.top + window.scrollY + 20}px`;
+        popup_link.style.left = `${rect.left + window.scrollX}px`;
+        popup_link.style.display = 'block';
+        urlInput.focus();
+
+        // Make the popup draggable
+        makePopupDraggable(popup_link);
+    }
+});
+
+window.addEventListener('click', (event) => {
+    if (!popup_link.contains(event.target) && ![linkButton, linkButton2].includes(event.target)) {
+        closePopup();
+    }
+});
+
+
+function makePopupDraggable(popup) {
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    popup.addEventListener('mousedown', function(e) {
+        // Prevent dragging if the target is an input or a button element
+        if (e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'button') {
+            return;
+        }
+
+        isDragging = true;
+        offsetX = e.clientX - popup.offsetLeft;
+        offsetY = e.clientY - popup.offsetTop;
+
+        // Prevent default action to stop text selection
+        e.preventDefault();
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+    });
+
+    function onMouseMove(e) {
+        if (isDragging) {
+            popup.style.left = `${e.clientX - offsetX}px`;
+            popup.style.top = `${e.clientY - offsetY}px`;
+        }
+    }
+
+    function onMouseUp() {
+        isDragging = false;
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+    }
+}
+
+
+
+
+
+
+function showPopup() {
+    if (selectedTextRange) {
+        const rect = selectedTextRange.getBoundingClientRect();
+        const isNearBottom = rect.top + rect.height + 200 > window.innerHeight;
+
+        if (isNearBottom) {
+            popup_link.style.top = '50%';
+            popup_link.style.left = '50%';
+            popup_link.style.transform = 'translate(-50%, -50%)';
+        } else {
+            popup_link.style.top = `${rect.top + window.scrollY + 20}px`;
+            popup_link.style.left = `${rect.left + window.scrollX}px`;
+            popup_link.style.transform = 'translate(0, 0)';
+        }
+    }
+    popup_link.style.display = 'block';
+    urlInput.value = '';
+    titleInput.value = titleInput.value || '';
+    openLinkButton.disabled = true;
+    targetBlankCheckbox.checked = false;
+    urlInput.focus();
+
+    // Make the popup draggable
+    makePopupDraggable(popup_link);
+}
 
     function closePopup() {
         popup_link.style.display = 'none';
@@ -2227,6 +2338,37 @@ editor.setValue(a);
     
 </script>
 
-
 </body>
+
+<br><br>
+<style>
+
+
+  </style>
+
+<div id="counter">
+<a href='https://www.free-counters.org/'>Get free Counters</a> 
+  <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=a147b710d564e55d001453c3aedef7679a1f0c99'></script>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1302284/t/0"></script>
+  
+</div>
+
+<script>
+    setTimeout(hidecount, 3000);
+
+    function shoowcount()
+    {
+      document.getElementById('counter').style.display='block';  
+      setTimeout(hidecount, 5000);
+
+    }
+    
+    function hidecount()
+  {
+    document.getElementById('counter').style.display='none';
+    //https://www.freevisitorcounters.com/en/home/stats/id/1302284 ,time-3 hours of JP time
+  }
+
+  </script>
+
 </html>
