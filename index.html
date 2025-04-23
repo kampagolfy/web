@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 
 <html>
@@ -70,8 +71,7 @@ outline: 0px solid transparent;
   border-radius: 10px;
   border: 1px solid gray;
   padding: 10px; 
-  font-family:Zen Maru Gothic;
-font-size: 14px; 
+  font-size: 14px; 
 /*font-weight: 376;*/
 height: auto;
 }
@@ -256,7 +256,8 @@ h1 {
 
 
         /* --------------------------------- */
-</style>
+
+  </style>
 
 
 
@@ -314,6 +315,7 @@ h1 {
  {
   font-family: "Zen Maru Gothic";
   font-weight: 400;
+  font-size:14px;
   padding:2px;
 
  } 
@@ -436,8 +438,7 @@ h1 {
 			 <button onclick="kaigyoukatto()">改行カット</button> <button id="toggleButton2">置換</button> <button onclick="openpostit()">メモ</button> <button id="replaceButton">自動翻訳反映</button>
 			 </button> <button id="replaceButtonshudou">手動翻訳反映</button>
 			 
-			 <button onclick="gyazohozon()">Gyazo保存</button>
-			 			 
+			 		 			 
 			 <span id="searchdiv2" style="display: none;" ><input id="search2" placeholder="Search..."> <input id="replace2" placeholder="Replace..."> <button onclick="search_replace2()">OK</button>
 			 </span>
 			 			 
@@ -445,7 +446,7 @@ h1 {
 
 <!★Text-textarea>
 
-			<textarea  style="display: block;line-height: 26.5px; display: block;line-height: 26.5px;width: 650px;height:1000px" onmousemove="mouseposition(event)" class="rcorners2" id="Text_textarea" onKeyPress="mojisuukei()" onKeyDown="mojisuukei()" onKeyUp="mojisuukei()" ></textarea></textarea>
+			<textarea  style="display: block;line-height: 26.5px; display: block;line-height: 26.5px;width: 650px;height:1000px" onmousemove="mouseposition(event)" class="rcorners2" id="Text_textarea" onKeyPress="mojisuukei()" onKeyDown="mojisuukei()" onKeyUp="mojisuukei()" ></textarea>
 			
 			</div>
 			
@@ -460,6 +461,7 @@ h1 {
 <button onclick="fontsizechange_underline()" title="見出し+下線を設定したい文字列を選択してからクリック">見出し+下線</button>
 <button onclick="insertselectHTML()">HTML挿入</button>
 <button id="acoopen-close" onclick="acoopenclose()" title="クリックしてアコーディオンを全部展開/縮小ができる">アコ全展開</button>
+<button id="acoedit" onclick="acoedit()" title="クリックしてアコーディオンを崩さないで内の内容を編集できる">アコ編集</button>
 
 <!--button onclick="copytojira()" title="Jiraでは、ハイフンは自動的に ・ になる。これでJira用のハイフンに変更。">Jira用ハイフン</button>-->
 <!--button onclick="copyRichText()">コピー</button-->
@@ -468,6 +470,7 @@ h1 {
 <!★Preview_p>
 			<div style="height:1000px; min-height:1000px; min-width:720px; overflow: auto; resize: both;font-size:13px;"onmousemove="mouseposition(event);" class="rcorners"  id="Preview_p" contenteditable=true></div>
 <br>
+
 
 <br>
 
@@ -500,7 +503,7 @@ h1 {
       </div>
         
         <hr></b>
-			<div style="display: inline-block"><button onclick="htmlhanei()">◀ 反映</button> <button onclick="kaigyou_seiri()">改行整理</button>
+			<div style="display: inline-block;margin-bottom: 16px;"><button onclick="htmlhanei()">◀ 反映</button> <button onclick="kaigyou_seiri()">改行整理</button>
 			
  
  <button id="themeButton">ダークテーマ</button> 
@@ -512,11 +515,59 @@ Shift-Ctrl-F:Replace
 Shift-Ctrl-R:Replace all"
 >サーチ</button>  <button onclick="editor.execCommand('replace');">リプレース</button> 
  <button id="foldbtn" onclick="foldall()">フォルド</button>
-  <button onclick="TextCopy()">コピー</button>
- <input name="realtime" type="checkbox" hidden/>
- </div>
 
-			<br><br>
+ 
+<span class="editor-container">
+  <button id="toggleButton" onclick="highlightText()">ハイライト</button>   
+    <div class="input-container" id="inputContainer" onclick="highlightText()" style="display: none;">
+      <div class="input-group" id="group1">
+        <span id="count1"></span>
+        <input type="text" id="highlight1" placeholder="Find 1">
+        <input type="text" id="replace1" placeholder="Replace 1">
+        <button onclick="replaceText(1)">Replace</button>
+</div>
+
+<div class="input-group" id="group2">
+        <span id="count2"></span>
+        <input type="text" id="highlight2" placeholder="Find 2">
+        <input type="text" id="replace2" placeholder="Replace 2">
+        <button onclick="replaceText(2)">Replace</button>
+</div>
+
+<div class="input-group" id="group3">
+        <span id="count3"></span>
+        <input type="text" id="highlight3" placeholder="Find 3">
+        <input type="text" id="replace3" placeholder="Replace 3">
+        <button onclick="replaceText(3)">Replace</button>
+</div>
+
+<div class="input-group" id="group4">
+        <span id="count4"></span>
+        <input type="text" id="highlight4" placeholder="Find 4">
+        <input type="text" id="replace4" placeholder="Replace 4">
+        <button onclick="replaceText(4)">Replace</button>
+</div>
+
+<div class="input-group" id="group5">
+        <span id="count5"></span>
+        <input type="text" id="highlight5" placeholder="Find 5">
+        <input type="text" id="replace5" placeholder="Replace 5">
+        <button onclick="replaceText(5)">Replace</button>
+</div>
+
+<div class="input-group" id="group6">
+        <span id="count6"></span>
+        <input type="text" id="highlight6" placeholder="Find 6">
+        <input type="text" id="replace6" placeholder="Replace 6">
+        <button onclick="replaceText(6)">Replace</button>
+</div>
+
+    </div>
+    <button onclick="TextCopy()">コピー</button>
+  </span>
+ 
+ </div>
+		
 <!★editor>
 			<textarea onmousemove="mouseposition(event);" class="rcorners"  id="editor" onKeyPress="jidouhanei()" onKeyDown="jidouhanei()" onKeyUp="jidouhanei()" ></textarea>
 			<p style="text-align:right;"><textarea id="HTML_textarea" class="inputhidden" cols=0 rows=0 ></textarea></p>
@@ -574,7 +625,12 @@ Shift-Ctrl-R:Replace all"
                     const newAlt = prompt("Enter new alt text:", image.alt);
                     if (newAlt !== null) {
                         image.alt = newAlt;
+                        function updateCodeMirrorContent() {    
+
+                   }           
+            const scrollInfo = editor.getScrollInfo();         
 						editor.setValue(document.getElementById('Preview_p').innerHTML);
+            editor.scrollTo(scrollInfo.left, scrollInfo.top);
                     }
                 });
             });
@@ -610,7 +666,8 @@ gutters: ["custom-gutter", "CodeMirror-linenumbers", "CodeMirror-foldgutter"], /
 	
 });
 
- // Add click event listener to the editor
+
+ // Add click event listener to the editor,pin,marker
  editor.on('gutterClick', function(cm, line) {
       toggleMarker(cm, line);
     });
@@ -634,8 +691,11 @@ gutters: ["custom-gutter", "CodeMirror-linenumbers", "CodeMirror-foldgutter"], /
       }
     }
 
+//-------------
 
-    
+
+
+  
 
 
 
@@ -698,29 +758,36 @@ editor.on("mouseover", function() {
 });
 
 document.getElementById("Preview_p").addEventListener("keypress", function() {
+  const scrollInfo = editor.getScrollInfo();         
   editor.setValue(this.innerHTML);
-   hideTooltip();
+  editor.scrollTo(scrollInfo.left, scrollInfo.top);
+     hideTooltip();
   //addEventListenersToContent();
 });
 
 document.getElementById("Preview_p").addEventListener("keyup", function() {
+  const scrollInfo = editor.getScrollInfo();  
   editor.setValue(this.innerHTML);
+  editor.scrollTo(scrollInfo.left, scrollInfo.top);
    hideTooltip();
   //addEventListenersToContent();
 });
 
 document.getElementById("Preview_p").addEventListener("keydown", function() {
+  const scrollInfo = editor.getScrollInfo();  
   editor.setValue(this.innerHTML);
+  editor.scrollTo(scrollInfo.left, scrollInfo.top);
    hideTooltip();
   //addEventListenersToContent();
 });
 
 document.getElementById("Preview_p").addEventListener("mousedown", function() {
+  const scrollInfo = editor.getScrollInfo();  
   editor.setValue(this.innerHTML);
+  editor.scrollTo(scrollInfo.left, scrollInfo.top);
    hideTooltip();
   //addEventListenersToContent();
 });
-
 
 
 editor.getWrapperElement().addEventListener("resize", function() {
@@ -748,28 +815,43 @@ themeButton.addEventListener('click', function() {
 
 
 
-//-----------------------highlight---------------------
-
 var previewWindow = document.getElementById("Preview_p");
+
+// Utility function to get selected HTML
+function getSelectedHtml() {
+  var selection = window.getSelection();
+  if (selection.rangeCount > 0) {
+    var range = selection.getRangeAt(0);
+    var container = document.createElement("div");
+    container.appendChild(range.cloneContents());
+    return container.innerHTML;
+  }
+  return '';
+}
 
 // Listen for the selection event in the preview window
 previewWindow.addEventListener('mouseup', function() {
-  
-  //var selectedText = window.getSelection().toString();
-  var selectedText = getSelectedHtml().toString();
-  
+  // Get the selected HTML as a string
+  var selectedText = getSelectedHtml();
 
-  // Find the location of the selected text in the source code
-  var sourceCode = editor.getValue();
-  var startIndex = sourceCode.indexOf(selectedText);
-  var endIndex = startIndex + selectedText.length;
+  // Ensure there's some text selected
+  if (selectedText.length > 0) {
+    // Get the source code from the editor
+    var sourceCode = editor.getValue();
 
-  // Convert the start and end indices to CodeMirror positions
-  var startPos = editor.posFromIndex(startIndex);
-  var endPos = editor.posFromIndex(endIndex);
+    // Find the location of the selected text in the source code
+    var startIndex = sourceCode.indexOf(selectedText);
+    if (startIndex !== -1) {
+      var endIndex = startIndex + selectedText.length;
 
-  // Highlight the corresponding source code in the CodeMirror instance
-  editor.setSelection(startPos, endPos);
+      // Convert the start and end indices to CodeMirror positions
+      var startPos = editor.posFromIndex(startIndex);
+      var endPos = editor.posFromIndex(endIndex);
+
+      // Highlight the corresponding source code in the CodeMirror instance
+      editor.setSelection(startPos, endPos);
+    }
+  }
 });
 
 
@@ -804,20 +886,6 @@ btn2.onclick = function() {
   isDivVisible2 = !isDivVisible2;
 };
 
-//---------
-
- function gyazohozon(){
- 
- var gyazo=document.getElementById("Text_textarea").value;
- var gyazo=gyazo.replace(/http/g,"<img src=\"http");
- var gyazo=gyazo.replace(/png/g,"png\"</img><br>");
- //document.getElementById("Text_textarea").value=gyazo;
- editor.setValue(gyazo);
- document.getElementById("Preview_p").innerHTML=editor.getValue();
- 
-  }
-
-
 
 
 function search_replace()
@@ -826,7 +894,9 @@ var a=document.getElementById("search").value;
 var b=document.getElementById("replace").value;
 var c=document.getElementById("HTML_textarea").value=editor.getValue();
 var c= c.replace(new RegExp(a,"g"),b);
+const scrollInfo = editor.getScrollInfo();  
 editor.setValue(c);
+editor.scrollTo(scrollInfo.left, scrollInfo.top);
 }
 
 function search_replace2()
@@ -841,7 +911,6 @@ document.getElementById("Text_textarea").value=c;
 
 
 //------------------------------------------------------------
-
 
 
 
@@ -867,20 +936,68 @@ function acoopenclose()
   if (btn.innerHTML === "アコ全展開") {
         btn.innerHTML = "アコ全縮小";
 		var a=editor.getValue();
+    var a=a.replace(/ style=""/g,"");
 		var a=a.replace(/<details>/g,"<details open=\"\">")
-		 editor.setValue(a);
+      const scrollInfo = editor.getScrollInfo();  
+      editor.setValue(a);
+      editor.scrollTo(scrollInfo.left, scrollInfo.top); 
+     
+      
 		 document.getElementById("Preview_p").innerHTML=editor.getValue();
 		 addEventListenersToContent();
   } else {
         btn.innerHTML = "アコ全展開";
 		var a=editor.getValue();
 		var a=a.replace(/<details open=\"\">/g,"<details>")
-		 editor.setValue(a);
-		 document.getElementById("Preview_p").innerHTML=editor.getValue();
+		 
+      const scrollInfo = editor.getScrollInfo();  
+      editor.setValue(a);
+      editor.scrollTo(scrollInfo.left, scrollInfo.top); 
+      		 document.getElementById("Preview_p").innerHTML=editor.getValue();
 		 addEventListenersToContent();
 		
   }
 }
+
+function acoedit()
+{
+	var btn=document.getElementById("acoedit");
+  if (btn.innerHTML === "アコ編集") {
+        btn.innerHTML = "アコ編集中";
+		var a=editor.getValue();
+    var a=a.replace(/ style=""/g,"");
+		var a=a.replace(/<details>/g,"<!--details--><div style=\"border-style: dotted;border-width: 1px\">");
+    var a=a.replace(/<details open=\"\">/g,"<!--details open=\"\"--><div style=\"border-style: dotted;border-width: 1px\">");
+    var a=a.replace(/<\/details>/g,"</div><!--/details-->");
+    
+    
+      const scrollInfo = editor.getScrollInfo();  
+      editor.setValue(a);
+      editor.scrollTo(scrollInfo.left, scrollInfo.top); 
+     
+      
+		 document.getElementById("Preview_p").innerHTML=editor.getValue();
+		 addEventListenersToContent();
+  } else {
+        btn.innerHTML = "アコ編集";
+		var a=editor.getValue();
+		var a=a.replace(/<!--details--><div style="border-style: dotted;border-width: 1px">/g,"<details>");
+    var a=a.replace(/<!--details open=""--><div style="border-style: dotted;border-width: 1px">/g,"<details open=\"\">");
+    var a=a.replace(/<\/div><!--\/details-->/g,"</details>");
+    
+		 
+      const scrollInfo = editor.getScrollInfo();  
+      editor.setValue(a);
+      editor.scrollTo(scrollInfo.left, scrollInfo.top); 
+      		 document.getElementById("Preview_p").innerHTML=editor.getValue();
+		 addEventListenersToContent();
+		
+  }
+}
+
+
+
+
 
 function genbunclose()
 {
@@ -1169,7 +1286,7 @@ var a=a.replace(/<\/tr>/g,"\n		</tr>")
 
 //<!--
 
-var a=a.replace(/<!--/g,"\n<!--")
+//var a=a.replace(/<!--/g,"\n<!--")
 var a=a.replace(/-->/g,"-->\n")
 
 //font
@@ -1204,10 +1321,6 @@ var a=a.replace(/<div style=\"text-align:/g,"			<div style=\"text-align:")
 var a=a.replace(/<\/summary>/g,"\n		<\/summary>\n")
 
 var a=a.replace(/<summary><span style=/g,"		<summary>\n			<span style=")
-
-
-var a=a.replace(/-->/g,"-->\n")
-
 
 
 
@@ -1449,6 +1562,7 @@ function texttoHTML()
 editor.setValue(document.getElementById('Preview_p').innerHTML);
 updateCounts();
 
+
 }
 
 function jidouka()
@@ -1647,11 +1761,19 @@ document.getElementById("Preview_p").innerHTML=editor.getValue();
 }
 
 
+
+
+
+
+
 function closepostit()
 {
 document.getElementById("mydivmemo").style.display="none";
 //document.getElementById("risuto").style.display="none";
 document.getElementById("iframe_head").contentDocument.location.reload(true);
+
+
+
 
 }
 
@@ -1787,6 +1909,8 @@ function copyRichText() {
   var aa=aa.replace(/-/g,"--");
   var aa=aa.replace(/-- /g,"");
   var aa=aa.replace(/--/g,"-");
+  var aa=aa.replace(/‐/g,"");
+  
 	
 	var aa=aa.replace(/\/\//g,"");
 	
@@ -1974,9 +2098,13 @@ editor.setValue(a);
 function THka()
 {
 var a=document.getElementById("Preview_p").innerHTML;
+
+//change font size
 var a=a.replace(/font-size: 12pt;/g,"")
 var a=a.replace(/font-size: 14pt;/g,"font-size: 12pt;")
 var a=a.replace(/font-size: 16pt;/g,"font-size: 12pt;")
+
+//erase alt
 var a=a.replace(/alt="ข้อมูลเพิ่มเติม :"/g,"")
 var a=a.replace(/&nbsp;ข้อมูลเพิ่มเติม :/g,"<b>&nbsp;ข้อมูลเพิ่มเติม :</b>")
 var a=a.replace(/<b><span style=" color: rgb(0, 0, 0);">-<\/span><\/b><br>/g,"")
@@ -2184,10 +2312,13 @@ editor.setValue(a);
         }
     });
 
-   // Add event listener for double-click
-Preview_p.addEventListener('dblclick', (event) => {
-    if (event.target.tagName.toLowerCase() === 'a') {
-        currentLink = event.target;
+
+
+
+   
+// Function to open the link popup
+function openLinkPopup() {
+    if (currentLink) {
         urlInput.value = decodeURIComponent(currentLink.href);
         titleInput.value = currentLink.textContent;
         openLinkButton.disabled = !urlInput.value.trim();
@@ -2195,30 +2326,49 @@ Preview_p.addEventListener('dblclick', (event) => {
         const rect = currentLink.getBoundingClientRect();
 
         if (selectedTextRange) {
-        const rect = selectedTextRange.getBoundingClientRect();
-        const isNearBottom = rect.top + rect.height + 200 > window.innerHeight;
+            const rect = selectedTextRange.getBoundingClientRect();
+            const isNearBottom = rect.top + rect.height + 200 > window.innerHeight;
 
-        if (isNearBottom) {
-            popup_link.style.top = '50%';
-            popup_link.style.left = '50%';
-            popup_link.style.transform = 'translate(-50%, -50%)';
-        } else {
-            popup_link.style.top = `${rect.top + window.scrollY + 20}px`;
-            popup_link.style.left = `${rect.left + window.scrollX}px`;
-            popup_link.style.transform = 'translate(0, 0)';
+            if (isNearBottom) {
+                popup_link.style.top = '50%';
+                popup_link.style.left = '50%';
+                popup_link.style.transform = 'translate(-50%, -50%)';
+            } else {
+                popup_link.style.top = `${rect.top + window.scrollY + 20}px`;
+                popup_link.style.left = `${rect.left + window.scrollX}px`;
+                popup_link.style.transform = 'translate(0, 0)';
+            }
         }
-    }
-
 
         popup_link.style.top = `${rect.top + window.scrollY + 20}px`;
         popup_link.style.left = `${rect.left + window.scrollX}px`;
         popup_link.style.display = 'block';
+
+        // Focus and select all text in the URL input
         urlInput.focus();
+        urlInput.select();
 
         // Make the popup draggable
         makePopupDraggable(popup_link);
     }
+}
+
+// Listen for double-clicks on links to open the popup
+Preview_p.addEventListener('dblclick', (event) => {
+    if (event.target.tagName.toLowerCase() === 'a') {
+        currentLink = event.target;
+        openLinkPopup();
+    }
 });
+
+// Listen for Ctrl + Shift + L to open the popup
+Preview_p.addEventListener('keydown', (event) => {
+    if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'l') {
+        //event.preventDefault(); // Prevent default behavior if needed
+        openLinkPopup();
+        }
+});
+
 
 window.addEventListener('click', (event) => {
     if (!popup_link.contains(event.target) && ![linkButton, linkButton2].includes(event.target)) {
@@ -2349,12 +2499,19 @@ function showPopup() {
 <div id="counter">
 <a href='https://www.free-counters.org/'>Get free Counters</a> 
   <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=a147b710d564e55d001453c3aedef7679a1f0c99'></script>
-  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1302284/t/0"></script>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1302284/t/0">
+
+
+
+ 
+
+
+  </script>
   
 </div>
 
 <script>
-    setTimeout(hidecount, 3000);
+    setTimeout(hidecount, 2000);
 
     function shoowcount()
     {
@@ -2370,5 +2527,171 @@ function showPopup() {
   }
 
   </script>
+
+
+
+
+
+<!-- multi-highlight---------------------------------------- -->
+
+<style>
+  
+
+  .editor-container {
+      flex-grow: 1;
+      margin-right: 20px;
+      position: relative;
+            
+  }
+
+  #toggleButton {
+      margin-bottom: 10px;
+  }
+
+  .input-container {
+      display: none; /* Initially hidden */
+      flex-direction: column;
+      position: absolute;
+      top: 40px; /* Position below the button */
+      left: -200px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      z-index: 1000;
+  }
+
+  .input-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1px;
+            
+  }
+
+  .input-group input {
+      padding: 5px;
+      width: 100px;
+      margin-right: 5px;
+      width:200px;
+  }
+
+  .input-group button {
+      padding: 5px 10px;
+  }
+
+  .highlight-1 { background-color: #ffcccc; }
+  .highlight-2 { background-color: #ccffcc; }
+  .highlight-3 { background-color: #ccccff; }
+  .highlight-4 { background-color: #ffffcc; }
+  .highlight-5 { background-color: #ffccff; }
+  .highlight-6 { background-color: #ccffff; }
+
+  .input-group span {
+    margin-right: 10px;
+    color: #0bc559;
+    font-weight: bold;
+}
+
+</style>
+
+<script>
+  
+  // Function to escape special characters in regex
+  function escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function highlightText() {
+    const highlights = [];
+    for (let i = 1; i <= 6; i++) {
+        highlights.push(document.getElementById(`highlight${i}`).value);
+    }
+
+    // Reset counts for all highlights
+    for (let i = 1; i <= 6; i++) {
+        document.getElementById(`count${i}`).textContent = '';
+    }
+
+    editor.getAllMarks().forEach(mark => mark.clear());
+
+    highlights.forEach((text, index) => {
+        if (text) {
+            const escapedText = escapeRegExp(text);
+            const regex = new RegExp(`(${escapedText})`, 'gi');
+            let totalCount = 0; // Initialize count of matches
+
+            editor.eachLine((line) => {
+                let match;
+                while ((match = regex.exec(line.text)) !== null) {
+                    totalCount++;
+                    editor.markText(
+                        { line: line.lineNo(), ch: match.index },
+                        { line: line.lineNo(), ch: match.index + match[1].length },
+                        { className: `highlight-${index + 1}` }
+                    );
+                }
+            });
+
+            if (totalCount > 0) {
+                document.getElementById(`count${index + 1}`).textContent = `(${totalCount}) `;
+            }
+        }
+    });
+}
+
+  // Function to replace text for a specific input group
+  function replaceText(index) {
+      const find = document.getElementById(`highlight${index}`).value;
+      const replace = document.getElementById(`replace${index}`).value;
+
+      if (find) {
+          const escapedFind = escapeRegExp(find);
+          const regex = new RegExp(escapedFind, 'g');
+
+          editor.operation(() => {
+              editor.eachLine((line) => {
+                  let match;
+                  while ((match = regex.exec(line.text)) !== null) {
+                      editor.replaceRange(
+                          replace,
+                          { line: line.lineNo(), ch: match.index },
+                          { line: line.lineNo(), ch: match.index + match[0].length }
+                      );
+                  }
+              });
+          });
+
+          highlightText(); // Reapply highlights after replacement
+          htmlhanei();
+      }
+  }
+
+  // Add event listeners to inputs
+  document.querySelectorAll('.input-container input').forEach(input => {
+      input.addEventListener('input', highlightText);
+  });
+
+  // Toggle input visibility
+  const toggleButton = document.getElementById('toggleButton');
+  const inputContainer = document.getElementById('inputContainer');
+
+  toggleButton.addEventListener('click', () => {
+      if (inputContainer.style.display === 'none' || inputContainer.style.display === '') {
+          inputContainer.style.display = 'flex';
+      } else {
+          inputContainer.style.display = 'none';
+      }
+  });
+
+</script>
+
+
+<!-- end multi-highlight---------------------------------------- -->
+
+
+
+
+
 
 </html>
