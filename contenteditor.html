@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 <html>
@@ -7,8 +6,10 @@
 <head>
 <meta charset="UTF-8"/>
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kampagolfy/web/refs/heads/main/list-square-rounded_solid.png" />
-<title>MSL コンテンツエディター</title>
+
+ <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/kampagolfy/web/refs/heads/main/list-square-rounded_solid.png" />
+
+ <title>MSL コンテンツエディター</title>
 
 
 
@@ -63,14 +64,14 @@ outline: 0px solid transparent;
   height: 900px;
   resize: both;
   overflow: auto;
+  
 }
 
 .rcorners2 {
   border-radius: 10px;
   border: 1px solid gray;
   padding: 10px; 
-  font-family:Meiryo;
-font-size: 14px; 
+  font-size: 14px; 
 /*font-weight: 376;*/
 height: auto;
 }
@@ -80,9 +81,7 @@ height: auto;
   border-radius: 10px;
   border: 1px solid gray;
   padding: 10px; 
-font-family : Meiryo,Leelawadee UI;
-font-size: 14px; 
-font-weight: 376;
+font-size: 13px; 
 height: auto;
 }
 
@@ -240,8 +239,25 @@ h1 {
             display: block;
         }
 
+
+        .move-up-text {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            font-family: "Zen Maru Gothic";
+  font-weight: 700;
+  font-style: normal;
+  font-size:28px;
+        }
+
+        .move-up-text:hover {
+            transform: translateY(-15px);
+            color:blue;
+        }
+
+
         /* --------------------------------- */
-</style>
+
+  </style>
 
 
 
@@ -285,13 +301,11 @@ h1 {
 
 
 <body onContextmenu="return false;" onload="closepostit();"  >
-
-
   <br>
   <style>
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Decol:wght@400;500;700&family=Zen+Maru+Gothic:wght@300;400;500;700;900&display=swap');
 .zen-maru-gothic {
-  font-family: "Zen Maru Gothic", system-ui;
+  font-family: "Zen Maru Gothic";
   font-weight: 700;
   font-style: normal;
   font-size:28px;
@@ -299,13 +313,22 @@ h1 {
   
  button
  {
-  font-family: "Zen Maru Gothic", system-ui;
+  font-family: "Zen Maru Gothic";
   font-weight: 400;
+  font-size:14px;
+  padding:2px;
+
  } 
 </style>
 <center>
 
-<div class="zen-maru-gothic">MSL コンテンツエディター</div>
+<div class="zen-maru-gothic">
+
+  <span class="move-up-text">M</span><span class="move-up-text">S</span><span class="move-up-text">L </span>
+  <span class="move-up-text"></span><span class="move-up-text">コ</span><span class="move-up-text">ン</span><span class="move-up-text">テ</span><span class="move-up-text">ン</span><span class="move-up-text">ツ</span><span class="move-up-text">エ</span><span class="move-up-text">デ</span><span class="move-up-text">ィ</span><span class="move-up-text">タ</span><span class="move-up-text">ー</span>
+  
+
+</div>
 
 <div class="zen-maru-gothic" style=" font-weight: 400;">
 <font size="2">
@@ -322,11 +345,10 @@ h1 {
 
 
 
-<div id="mydiv" class="rcorners">
+<div id="mydivmemo" class="rcorners">
 <div onclick="closepostit()" id="closepostit" style="text-align: right;">Ⓧ</div><div onclick="makeinserttext()">≡</div>
-  <div id="mydivheader">メモ</div>
+  <div id="mydivmemoheader">メモ</div>
   <p><textarea id="inserttextarea" cols="40" rows="10" style="padding: 10px 10px;"></textarea></p>
-
 </div>
 
 <div class="my-contextmenu" id="js-contextmenu" >
@@ -339,11 +361,6 @@ h1 {
 		<tr>
 			<td style='vertical-align:top'>
 
-<button onclick="makebold()">Bold</button><br><br>
-<button onclick="midashi16()">見出し①16</button>
-<button onclick="midashi14()">見出し②14</button>
-<button onclick="midashi12()">見出し③12</button>
-<br><br>
 
 セク:注意 <button onclick="makesection_ja_text_chuui()" title="セクション化したい部分を選択してからこのボタンをクリック">JA</button>
  <button onclick="makesection_th_text_chuui()" title="セクション化したい部分を選択してからこのボタンをクリック">TH</button>
@@ -370,7 +387,7 @@ h1 {
  <button onclick="document.execCommand('insertText', false, '{└----------------------3end----------------------┘}');">アコ3重end</button><br><br>
 </td>
 			<td style='vertical-align:top'>
-<button onclick="link()">リンク</button> <button onclick="link2()">リンクターゲット</button>
+<button id="link-button2">リンク</button>
 
 
 <button onclick="document.execCommand('forecolor', false,'#00B050');editor.setValue(document.getElementById('Preview_p').innerHTML);">グリーン</button>
@@ -396,7 +413,6 @@ h1 {
 
 <b>Image関連</b><br>
 <button onclick="imagecopy()">imgコードのみコピー</button><br>
-<button onclick="imagecopy_NONOPASTE()">imgNONOPASTEへのコピー</button>
 
 </td>
 		</tr>
@@ -413,17 +429,16 @@ h1 {
 			<td style='vertical-align:top ;width:400px'></td>
 		</tr>
 		<tr>
-			<td style='vertical-align:top ;' ><b class="zen-maru-gothic"><font size=3>原文 <button style="font-size:6px;" id="genbundivbutton" onclick="genbunclose()">×</button>   &nbsp;&nbsp;<span id="mojisuu" style="color:gray;font-size:12px;"></span></font> 
+			<td style='vertical-align:top ;' ><b class="zen-maru-gothic"><font size=3><span onclick="shoowcount()">原文</span> <button style="font-size:6px;" id="genbundivbutton" onclick="genbunclose()">×</button>   &nbsp;&nbsp;<span id="mojisuu" style="color:gray;font-size:12px;"></span></font> 
 </b><hr><p class="zen-maru-gothic" style="font-size:8px;color:white">.</p>
 			<div id="genbundiv" >
 			<button onclick="jidouka()" title="アコーディオンの冒頭に設定するには、{{title}} を入れてください。
 終了するところは{end}を入れてください">自動化</button>
  
-			 <button onclick="kaigyoukatto()">改行カット</button> <button id="maskButton">マスキング</button> <button id="toggleButton2">置換</button> <button onclick="openpostit()">メモ</button> <button id="replaceButton">自動翻訳反映</button>
+			 <button onclick="kaigyoukatto()">改行カット</button> <button id="toggleButton2">置換</button> <button onclick="openpostit()">メモ</button> <button id="replaceButton">自動翻訳反映</button>
 			 </button> <button id="replaceButtonshudou">手動翻訳反映</button>
 			 
-			 <button onclick="gyazohozon()">Gyazo保存</button>
-			 			 
+			 		 			 
 			 <span id="searchdiv2" style="display: none;" ><input id="search2" placeholder="Search..."> <input id="replace2" placeholder="Replace..."> <button onclick="search_replace2()">OK</button>
 			 </span>
 			 			 
@@ -431,30 +446,31 @@ h1 {
 
 <!★Text-textarea>
 
-			<textarea  style="display: block;line-height: 26.5px; display: block;line-height: 26.5px;width: 650px;height:1000px" onmousemove="mouseposition(event)" class="rcorners2" id="Text_textarea" onKeyPress="mojisuukei()" onKeyDown="mojisuukei()" onKeyUp="mojisuukei()" ></textarea></textarea>
+			<textarea  style="display: block;line-height: 26.5px; display: block;line-height: 26.5px;width: 650px;height:1000px" onmousemove="mouseposition(event)" class="rcorners2" id="Text_textarea" onKeyPress="mojisuukei()" onKeyDown="mojisuukei()" onKeyUp="mojisuukei()" ></textarea>
 			
 			</div>
 			
 			</td>
 
 			<td style='vertical-align:top ;width:700px'><b class="zen-maru-gothic"><font size=3>プレビュー</font><hr></b>
-			<button onclick="texttoHTML()">HTML更新 ▶</button> <button id="make-link-button">リンク</button>
-			<button onclick="link2()">リンクターゲット</button>
+			<button onclick="texttoHTML()">HTML更新 ▶</button> <button id="link-button">リンク</button>
 			<button onclick="Preview()">プレビュー</button> 
 
-<button onclick="clearformat()" title="選択してクリックするとフォーマットクリアします。<br>タグ以外は削除されます">クリア</button>
+<button onclick="clearformat()" title="選択してクリックするとフォーマットクリアします。<br>/<a>/<b>タグ以外,styleは削除されます">クリア</button>
 <button onclick="fontsizechange()" title="見出しを設定したい文字列を選択してからクリック">見出し</button>
 <button onclick="fontsizechange_underline()" title="見出し+下線を設定したい文字列を選択してからクリック">見出し+下線</button>
 <button onclick="insertselectHTML()">HTML挿入</button>
 <button id="acoopen-close" onclick="acoopenclose()" title="クリックしてアコーディオンを全部展開/縮小ができる">アコ全展開</button>
+<button id="acoedit" onclick="acoedit()" title="クリックしてアコーディオンを崩さないで内の内容を編集できる">アコ編集</button>
 
 <!--button onclick="copytojira()" title="Jiraでは、ハイフンは自動的に ・ になる。これでJira用のハイフンに変更。">Jira用ハイフン</button>-->
 <!--button onclick="copyRichText()">コピー</button-->
 			<br><br>
 
 <!★Preview_p>
-			<div style="height:1000px; min-height:1000px; min-width:720px; overflow: auto; resize: both;"onmousemove="mouseposition(event);" class="rcorners"  id="Preview_p" contenteditable=true></div>
+			<div style="height:1000px; min-height:1000px; min-width:720px; overflow: auto; resize: both;font-size:13px;"onmousemove="mouseposition(event);" class="rcorners"  id="Preview_p" contenteditable=true></div>
 <br>
+
 
 <br>
 
@@ -487,7 +503,7 @@ h1 {
       </div>
         
         <hr></b>
-			<div style="display: inline-block"><button onclick="htmlhanei()">◀ 反映</button> <button onclick="kaigyou_seiri()">改行整理</button>
+			<div style="display: inline-block;margin-bottom: 16px;"><button onclick="htmlhanei()">◀ 反映</button> <button onclick="kaigyou_seiri()">改行整理</button>
 			
  
  <button id="themeButton">ダークテーマ</button> 
@@ -499,12 +515,59 @@ Shift-Ctrl-F:Replace
 Shift-Ctrl-R:Replace all"
 >サーチ</button>  <button onclick="editor.execCommand('replace');">リプレース</button> 
  <button id="foldbtn" onclick="foldall()">フォルド</button>
-  <button onclick="extractFromTextarea()">コード詳細</button>
- <button onclick="TextCopy()">コピー</button>
- <input name="realtime" type="checkbox" hidden/>
- </div>
 
-			<br><br>
+ 
+<span class="editor-container">
+  <button id="toggleButton" onclick="highlightText()">ハイライト</button>   
+    <div class="input-container" id="inputContainer" onclick="highlightText()" style="display: none;">
+      <div class="input-group" id="group1">
+        <span id="count1"></span>
+        <input type="text" id="highlight1" placeholder="Find 1">
+        <input type="text" id="replace1" placeholder="Replace 1">
+        <button onclick="replaceText(1)">Replace</button>
+</div>
+
+<div class="input-group" id="group2">
+        <span id="count2"></span>
+        <input type="text" id="highlight2" placeholder="Find 2">
+        <input type="text" id="replace2" placeholder="Replace 2">
+        <button onclick="replaceText(2)">Replace</button>
+</div>
+
+<div class="input-group" id="group3">
+        <span id="count3"></span>
+        <input type="text" id="highlight3" placeholder="Find 3">
+        <input type="text" id="replace3" placeholder="Replace 3">
+        <button onclick="replaceText(3)">Replace</button>
+</div>
+
+<div class="input-group" id="group4">
+        <span id="count4"></span>
+        <input type="text" id="highlight4" placeholder="Find 4">
+        <input type="text" id="replace4" placeholder="Replace 4">
+        <button onclick="replaceText(4)">Replace</button>
+</div>
+
+<div class="input-group" id="group5">
+        <span id="count5"></span>
+        <input type="text" id="highlight5" placeholder="Find 5">
+        <input type="text" id="replace5" placeholder="Replace 5">
+        <button onclick="replaceText(5)">Replace</button>
+</div>
+
+<div class="input-group" id="group6">
+        <span id="count6"></span>
+        <input type="text" id="highlight6" placeholder="Find 6">
+        <input type="text" id="replace6" placeholder="Replace 6">
+        <button onclick="replaceText(6)">Replace</button>
+</div>
+
+    </div>
+    <button onclick="TextCopy()">コピー</button>
+  </span>
+ 
+ </div>
+		
 <!★editor>
 			<textarea onmousemove="mouseposition(event);" class="rcorners"  id="editor" onKeyPress="jidouhanei()" onKeyDown="jidouhanei()" onKeyUp="jidouhanei()" ></textarea>
 			<p style="text-align:right;"><textarea id="HTML_textarea" class="inputhidden" cols=0 rows=0 ></textarea></p>
@@ -534,72 +597,18 @@ Shift-Ctrl-R:Replace all"
             tooltip.style.display = 'none';
         }
 
-        document.getElementById('make-link-button').addEventListener('click', function() {
-          
-            const url = prompt("Enter URL:");
-            if (!url) {
-                alert("Please enter a valid URL.");
-                return;
-            }
-
-            const selection = window.getSelection();
-            if (selection.rangeCount > 0) {
-                const range = selection.getRangeAt(0);
-                if (range.toString().length > 0) {
-                    const anchor = document.createElement('a');
-                    anchor.href = url;
-                    anchor.textContent = range.toString();
-					editor.setValue(document.getElementById('Preview_p').innerHTML);
-          updateCounts();
-
-                    // Double-click for editing URL
-                    anchor.addEventListener('dblclick', function() {
-                        const newUrl = prompt("Enter new URL:", decodeURIComponent(anchor.href));
-                        if (newUrl) {
-                            anchor.href = newUrl;
-							editor.setValue(document.getElementById('Preview_p').innerHTML);
-              updateCounts();
-                        }
-                    });
-
-                    // Mouseover for showing tooltip
-                    anchor.addEventListener('mouseover', function(e) {
-                        // Decode the URL for tooltip display
-                        showTooltip(decodeURIComponent(anchor.href), e);
-                    });
-
-                    // Mouseout for hiding tooltip
-                    anchor.addEventListener('mouseout', hideTooltip);
-
-                    range.deleteContents();
-                    range.insertNode(anchor);
-                } else {
-                    alert("Please select some text.");
-                }
-            }
-			editor.setValue(document.getElementById('Preview_p').innerHTML);
-      updateCounts();
-        });
-
+        
         function addEventListenersToContent() {
-            // Adding to links
-            document.querySelectorAll('#Preview_p a').forEach(anchor => {
-                anchor.addEventListener('dblclick', function() {
-                    const newUrl = prompt("Enter new URL:", anchor.href);
-                    if (newUrl) {
-                        anchor.href = newUrl;
-						editor.setValue(document.getElementById('Preview_p').innerHTML);
-                    }
-                });
-
+          
+          // Adding to links
+          document.querySelectorAll('#Preview_p a').forEach(anchor => {
+                
                 anchor.addEventListener('mouseover', function(e) {
                     // Decode the URL for tooltip display
                     showTooltip(decodeURIComponent(anchor.href), e);
                 });
-
                 anchor.addEventListener('mouseout', hideTooltip);
             });
-
 
             // Adding events to images
             document.querySelectorAll('#Preview_p img').forEach(image => {
@@ -611,12 +620,17 @@ Shift-Ctrl-R:Replace all"
 
                 image.addEventListener('mouseout', hideTooltip);
 
-                // Double-click to change alt attribute
+                  // Double-click to change alt attribute
                 image.addEventListener('dblclick', function() {
                     const newAlt = prompt("Enter new alt text:", image.alt);
                     if (newAlt !== null) {
                         image.alt = newAlt;
+                        function updateCodeMirrorContent() {    
+
+                   }           
+            const scrollInfo = editor.getScrollInfo();         
 						editor.setValue(document.getElementById('Preview_p').innerHTML);
+            editor.scrollTo(scrollInfo.left, scrollInfo.top);
                     }
                 });
             });
@@ -652,7 +666,8 @@ gutters: ["custom-gutter", "CodeMirror-linenumbers", "CodeMirror-foldgutter"], /
 	
 });
 
- // Add click event listener to the editor
+
+ // Add click event listener to the editor,pin,marker
  editor.on('gutterClick', function(cm, line) {
       toggleMarker(cm, line);
     });
@@ -676,8 +691,11 @@ gutters: ["custom-gutter", "CodeMirror-linenumbers", "CodeMirror-foldgutter"], /
       }
     }
 
+//-------------
 
-    
+
+
+  
 
 
 
@@ -740,29 +758,36 @@ editor.on("mouseover", function() {
 });
 
 document.getElementById("Preview_p").addEventListener("keypress", function() {
+  const scrollInfo = editor.getScrollInfo();         
   editor.setValue(this.innerHTML);
-   hideTooltip();
+  editor.scrollTo(scrollInfo.left, scrollInfo.top);
+     hideTooltip();
   //addEventListenersToContent();
 });
 
 document.getElementById("Preview_p").addEventListener("keyup", function() {
+  const scrollInfo = editor.getScrollInfo();  
   editor.setValue(this.innerHTML);
+  editor.scrollTo(scrollInfo.left, scrollInfo.top);
    hideTooltip();
   //addEventListenersToContent();
 });
 
 document.getElementById("Preview_p").addEventListener("keydown", function() {
+  const scrollInfo = editor.getScrollInfo();  
   editor.setValue(this.innerHTML);
+  editor.scrollTo(scrollInfo.left, scrollInfo.top);
    hideTooltip();
   //addEventListenersToContent();
 });
 
 document.getElementById("Preview_p").addEventListener("mousedown", function() {
+  const scrollInfo = editor.getScrollInfo();  
   editor.setValue(this.innerHTML);
+  editor.scrollTo(scrollInfo.left, scrollInfo.top);
    hideTooltip();
   //addEventListenersToContent();
 });
-
 
 
 editor.getWrapperElement().addEventListener("resize", function() {
@@ -790,28 +815,43 @@ themeButton.addEventListener('click', function() {
 
 
 
-//-----------------------highlight---------------------
-
 var previewWindow = document.getElementById("Preview_p");
+
+// Utility function to get selected HTML
+function getSelectedHtml() {
+  var selection = window.getSelection();
+  if (selection.rangeCount > 0) {
+    var range = selection.getRangeAt(0);
+    var container = document.createElement("div");
+    container.appendChild(range.cloneContents());
+    return container.innerHTML;
+  }
+  return '';
+}
 
 // Listen for the selection event in the preview window
 previewWindow.addEventListener('mouseup', function() {
-  
-  //var selectedText = window.getSelection().toString();
-  var selectedText = getSelectedHtml().toString();
-  
+  // Get the selected HTML as a string
+  var selectedText = getSelectedHtml();
 
-  // Find the location of the selected text in the source code
-  var sourceCode = editor.getValue();
-  var startIndex = sourceCode.indexOf(selectedText);
-  var endIndex = startIndex + selectedText.length;
+  // Ensure there's some text selected
+  if (selectedText.length > 0) {
+    // Get the source code from the editor
+    var sourceCode = editor.getValue();
 
-  // Convert the start and end indices to CodeMirror positions
-  var startPos = editor.posFromIndex(startIndex);
-  var endPos = editor.posFromIndex(endIndex);
+    // Find the location of the selected text in the source code
+    var startIndex = sourceCode.indexOf(selectedText);
+    if (startIndex !== -1) {
+      var endIndex = startIndex + selectedText.length;
 
-  // Highlight the corresponding source code in the CodeMirror instance
-  editor.setSelection(startPos, endPos);
+      // Convert the start and end indices to CodeMirror positions
+      var startPos = editor.posFromIndex(startIndex);
+      var endPos = editor.posFromIndex(endIndex);
+
+      // Highlight the corresponding source code in the CodeMirror instance
+      editor.setSelection(startPos, endPos);
+    }
+  }
 });
 
 
@@ -846,45 +886,6 @@ btn2.onclick = function() {
   isDivVisible2 = !isDivVisible2;
 };
 
-//--------------------------------------Masking------
-
-function maskSensitiveInfo(text) {
-  const maskedTelephones = text.replace(/\b(\d{2,})[- ]?(\d{5})[- ]?(\d+)\b/g, function(match, start, middle, end) {
-    return `${start}***${end}`;
-  });
-
-  const maskedEmails = maskedTelephones.replace(/(\b[A-Za-z0-9._%+-]{2,})[A-Za-z0-9._%+-]{3}([A-Za-z0-9._%+-]*@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b)/g, function(match, start, end) {
-    return `${start}***${end}`;
-  });
-
-  return maskedEmails;
-}
-
-document.getElementById('maskButton').addEventListener('click', function() {
-  const inputText = document.getElementById('Text_textarea').value;
-  const maskedText = maskSensitiveInfo(inputText);
-  document.getElementById('Text_textarea').value = maskedText;
-  
-});
-
-
-
-
-
-//------------------------------------------------------------
-
- function gyazohozon(){
- 
- var gyazo=document.getElementById("Text_textarea").value;
- var gyazo=gyazo.replace(/http/g,"<img src=\"http");
- var gyazo=gyazo.replace(/png/g,"png\"</img><br>");
- //document.getElementById("Text_textarea").value=gyazo;
- editor.setValue(gyazo);
- document.getElementById("Preview_p").innerHTML=editor.getValue();
- 
-  }
-
-
 
 
 function search_replace()
@@ -893,7 +894,9 @@ var a=document.getElementById("search").value;
 var b=document.getElementById("replace").value;
 var c=document.getElementById("HTML_textarea").value=editor.getValue();
 var c= c.replace(new RegExp(a,"g"),b);
+const scrollInfo = editor.getScrollInfo();  
 editor.setValue(c);
+editor.scrollTo(scrollInfo.left, scrollInfo.top);
 }
 
 function search_replace2()
@@ -908,7 +911,6 @@ document.getElementById("Text_textarea").value=c;
 
 
 //------------------------------------------------------------
-
 
 
 
@@ -934,20 +936,68 @@ function acoopenclose()
   if (btn.innerHTML === "アコ全展開") {
         btn.innerHTML = "アコ全縮小";
 		var a=editor.getValue();
+    var a=a.replace(/ style=""/g,"");
 		var a=a.replace(/<details>/g,"<details open=\"\">")
-		 editor.setValue(a);
+      const scrollInfo = editor.getScrollInfo();  
+      editor.setValue(a);
+      editor.scrollTo(scrollInfo.left, scrollInfo.top); 
+     
+      
 		 document.getElementById("Preview_p").innerHTML=editor.getValue();
 		 addEventListenersToContent();
   } else {
         btn.innerHTML = "アコ全展開";
 		var a=editor.getValue();
 		var a=a.replace(/<details open=\"\">/g,"<details>")
-		 editor.setValue(a);
-		 document.getElementById("Preview_p").innerHTML=editor.getValue();
+		 
+      const scrollInfo = editor.getScrollInfo();  
+      editor.setValue(a);
+      editor.scrollTo(scrollInfo.left, scrollInfo.top); 
+      		 document.getElementById("Preview_p").innerHTML=editor.getValue();
 		 addEventListenersToContent();
 		
   }
 }
+
+function acoedit()
+{
+	var btn=document.getElementById("acoedit");
+  if (btn.innerHTML === "アコ編集") {
+        btn.innerHTML = "アコ編集中";
+		var a=editor.getValue();
+    var a=a.replace(/ style=""/g,"");
+		var a=a.replace(/<details>/g,"<!--details--><div style=\"border-style: dotted;border-width: 1px\">");
+    var a=a.replace(/<details open=\"\">/g,"<!--details open=\"\"--><div style=\"border-style: dotted;border-width: 1px\">");
+    var a=a.replace(/<\/details>/g,"</div><!--/details-->");
+    
+    
+      const scrollInfo = editor.getScrollInfo();  
+      editor.setValue(a);
+      editor.scrollTo(scrollInfo.left, scrollInfo.top); 
+     
+      
+		 document.getElementById("Preview_p").innerHTML=editor.getValue();
+		 addEventListenersToContent();
+  } else {
+        btn.innerHTML = "アコ編集";
+		var a=editor.getValue();
+		var a=a.replace(/<!--details--><div style="border-style: dotted;border-width: 1px">/g,"<details>");
+    var a=a.replace(/<!--details open=""--><div style="border-style: dotted;border-width: 1px">/g,"<details open=\"\">");
+    var a=a.replace(/<\/div><!--\/details-->/g,"</details>");
+    
+		 
+      const scrollInfo = editor.getScrollInfo();  
+      editor.setValue(a);
+      editor.scrollTo(scrollInfo.left, scrollInfo.top); 
+      		 document.getElementById("Preview_p").innerHTML=editor.getValue();
+		 addEventListenersToContent();
+		
+  }
+}
+
+
+
+
 
 function genbunclose()
 {
@@ -1104,9 +1154,7 @@ function getSelectedHtml() {
     return html;
 }
 
-function removeHtmlTagsExceptBr(html) {
-    return html.replace(/<(?!br\s*\/?)[^>]+>/g, '');
-}
+
 
 function makeinserttext()
 {
@@ -1184,26 +1232,40 @@ editor.setValue(a);
 
 }
 
+function clearformat() {
+    var html = getSelectedHtml();
+    var result = removeHtmlTagsExceptBrAB(html);
 
+    // Insert the cleaned HTML content
+    document.execCommand('insertHTML', false, result);
 
+    // Update the editor's value with the cleaned content
+    editor.setValue(document.getElementById("Preview_p").innerHTML);
 
-function clearformat()
-{
+    kaigyou_seiri();
+    htmlhanei(); 
 
-var html = getSelectedHtml();
-var text = getSelectedText();
-var result = removeHtmlTagsExceptBr(html);
-var  a=text.replace(/\n/g, '<br>');
-
-//var selObj = window.getSelection(); 
-//var selObj2 = selObj;
-
-//document.execCommand('insertHTML', false, selObj2);
-//document.execCommand('insertHTML', false, result);
-document.execCommand('insertHTML', false, a);
-
-editor.setValue(document.getElementById("Preview_p").innerHTML);
 }
+
+function removeHtmlTagsExceptBrAB(html) {
+    return html
+        .replace(/<br[^>]*>/gi, '<br>')                  // Retain clean <br> tags
+        .replace(/<a\b([^>]*)>(.*?)<\/a>/gi, function(match, attributes, content) {
+            // Remove style attribute while preserving <a> tags
+            attributes = attributes.replace(/\s*style="[^"]*"/gi, '');
+            return `<a${attributes}>${content}</a>`;
+        })
+        .replace(/<b\b([^>]*)>/gi, function(match, attributes) {
+            // Remove style attribute while preserving <b> tags
+            attributes = attributes.replace(/\s*style="[^"]*"/gi, '');
+            return `<b${attributes}>`;
+        })
+        .replace(/<(?!br\b|\/?a\b|\/?b\b)[^>]+>/gi, '')  // Remove all other tags except <br>, <a>, and <b>
+        .replace(/\s*style="[^"]*"/gi, '');              // Finally, remove remaining style attributes
+}
+
+
+
 
 function kaigyou_seiri()
 {
@@ -1224,7 +1286,7 @@ var a=a.replace(/<\/tr>/g,"\n		</tr>")
 
 //<!--
 
-var a=a.replace(/<!--/g,"\n<!--")
+//var a=a.replace(/<!--/g,"\n<!--")
 var a=a.replace(/-->/g,"-->\n")
 
 //font
@@ -1259,10 +1321,6 @@ var a=a.replace(/<div style=\"text-align:/g,"			<div style=\"text-align:")
 var a=a.replace(/<\/summary>/g,"\n		<\/summary>\n")
 
 var a=a.replace(/<summary><span style=/g,"		<summary>\n			<span style=")
-
-
-var a=a.replace(/-->/g,"-->\n")
-
 
 
 
@@ -1301,30 +1359,7 @@ function imagecopy()
 			
         }
 		
-		function imagecopy_NONOPASTE()
-{
-	document.getElementById("HTML_textarea").value=editor.getValue();
-	     
-		 const input = document.getElementById('HTML_textarea').value;
-            const match = input.match(/<img src="([^"]+)" alt="">/);
-
-            if (match && match[1]) {
-                var nonopaste="![]("+match[1]+")";
-				navigator.clipboard.writeText(nonopaste)
-				    .then(() => showAlertgreen("NoNoPasteへのイメージコードをコピーしました"))
-                    .catch(err => showAlert('コピーに失敗しました: ' + err));
-									
-					//var a="https://nopaste.linecorp.com";
-					//var myWindow = window.open("https://nopaste.linecorp.com", "MsgWindow", "width=800,height=900");
-					window.open("https://nopaste.linecorp.com", "MsgWindow", "width=1000,height=900");
-					//myWindow.document.write("<title>NonoPaste</title>"+a);
 					
-            } else {
-                showAlert("有効なイメージコードが見つかりません");
-            }
-						
-        }
-			
   function showAlert(message) {
             const alertBox = document.createElement('div');
             alertBox.className = 'alert-box';
@@ -1370,12 +1405,7 @@ showAlertgreen("コードをコピーしました");
 	
 }
 
-function makebold()
-{
-var selObj = window.getSelection(); 
-var text="<b>"+selObj+"</b>";
-document.execCommand('insertText', false, text);
-}
+
 
 //function makesection_ko()
 //{
@@ -1446,26 +1476,6 @@ document.execCommand("insertHTML", false, "&nbsp; &nbsp;<img src='https://scdn.l
 //style='width: 10px; vertical-align: middle'>
 }
 
-function midashi12()
-{
-var selObj = window.getSelection(); 
-var text="{{--見出し③12pt : "+selObj+"--}}";
-document.execCommand('insertText', false, text);
-}
-
-function midashi14()
-{
-var selObj = window.getSelection(); 
-var text="{{--見出し②14pt : "+selObj+"--}}";
-document.execCommand('insertText', false, text);
-}
-
-function midashi16()
-{
-var selObj = window.getSelection(); 
-var text="{{--見出し①16pt : "+selObj+"--}}";
-document.execCommand('insertText', false, text);
-}
 
 function acco()
 {
@@ -1526,14 +1536,6 @@ mousey = event.clientY;
 }());
 
 
-function link()
-{
-a=prompt("URLを入力してください","https://");
-document.execCommand("createLink",false,a);
-editor.setValue(document.getElementById('Preview_p').innerHTML);
-addEventListenersToContent();
-}
-
 function link2()
 {
 b=prompt('URLを入力してください target="_blank" 記載あり',"https://");
@@ -1547,7 +1549,7 @@ var selObj2 = '<a href="'+b+'" target="_blank">'+html+'</a>';
 
 document.execCommand('insertHTML', false, selObj2);
 editor.setValue(document.getElementById("Preview_p").innerHTML);
-addEventListenersToContent();
+//htmlhanei();
 
 }
 
@@ -1559,6 +1561,7 @@ function texttoHTML()
 
 editor.setValue(document.getElementById('Preview_p').innerHTML);
 updateCounts();
+
 
 }
 
@@ -1758,17 +1761,25 @@ document.getElementById("Preview_p").innerHTML=editor.getValue();
 }
 
 
+
+
+
+
+
 function closepostit()
 {
-document.getElementById("mydiv").style.display="none";
+document.getElementById("mydivmemo").style.display="none";
 //document.getElementById("risuto").style.display="none";
 document.getElementById("iframe_head").contentDocument.location.reload(true);
+
+
+
 
 }
 
 function openpostit()
 {
-document.getElementById("mydiv").style.display="block";
+document.getElementById("mydivmemo").style.display="block";
 }
 
 
@@ -1776,15 +1787,16 @@ document.getElementById("mydiv").style.display="block";
 
 
 <style>
-#mydiv {
+#mydivmemo {
   position: absolute;
   z-index: 9;
   background-color: #f1f1f1;
   text-align: center;
   border: 1px solid black;
+  display: none;
 }
 
-#mydivheader {
+#mydivmemoheader {
   padding: 10px;
   cursor: move;
   z-index: 10;
@@ -1798,7 +1810,7 @@ document.getElementById("mydiv").style.display="block";
 
 <script>
 //Make the DIV element draggagle:
-dragElement(document.getElementById("mydiv"));
+dragElement(document.getElementById("mydivmemo"));
 
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -1894,14 +1906,17 @@ function copyRichText() {
 	var aa=aa.replace(/▼/g,"");
 	var aa=aa.replace(/▽/g,"");
 	var aa=aa.replace(/⇒/g,"");
+  var aa=aa.replace(/-/g,"--");
+  var aa=aa.replace(/-- /g,"");
+  var aa=aa.replace(/--/g,"-");
+  var aa=aa.replace(/‐/g,"");
+  
 	
 	var aa=aa.replace(/\/\//g,"");
 	
 	//var aa=aa.replace(/-/g,"");
 	
 	var aa=aa.replace(/<\/b>><b>/g,"</b>&gt;<b>");
-	
-	
 	var aa=aa.replace(/<b>/g,"");
 	var aa=aa.replace(/<\/b>/g,"");
 	var aa=aa.replace(/\[/g,"<b>[");
@@ -1929,7 +1944,9 @@ function copyRichText() {
 	
 	var aa=aa.replace(/<b><b>/g,"<b>");
 	
+
 	document.getElementById("Text_textarea").value=aa;
+  
 	
 	const leftText = document.getElementById("Text_textarea").value;
     const rightText = editor.getValue();
@@ -1964,8 +1981,8 @@ addEventListenersToContent();
     	
 	var aa=document.getElementById("Text_textarea").value;
 	
-	var aa=aa.replace(/▼/g,"");
-	var aa=aa.replace(/\/\//g,"");
+	//var aa=aa.replace(/▼/g,"");
+	//var aa=aa.replace(/\/\//g,"");
 	
 		//tobedone-done
 	var aa=aa.replace(/To be checked/g,"Done");
@@ -2081,9 +2098,13 @@ editor.setValue(a);
 function THka()
 {
 var a=document.getElementById("Preview_p").innerHTML;
+
+//change font size
 var a=a.replace(/font-size: 12pt;/g,"")
 var a=a.replace(/font-size: 14pt;/g,"font-size: 12pt;")
 var a=a.replace(/font-size: 16pt;/g,"font-size: 12pt;")
+
+//erase alt
 var a=a.replace(/alt="ข้อมูลเพิ่มเติม :"/g,"")
 var a=a.replace(/&nbsp;ข้อมูลเพิ่มเติม :/g,"<b>&nbsp;ข้อมูลเพิ่มเติม :</b>")
 var a=a.replace(/<b><span style=" color: rgb(0, 0, 0);">-<\/span><\/b><br>/g,"")
@@ -2163,12 +2184,514 @@ editor.setValue(a);
                 imgList.innerHTML = '<li>No images</li>';
             }
         }
-  //  ---------------------------------------------
+  
+  
+        //  -------------------link popup--------------------------
+
+</script>
+
+    <style>
+        #editable-div {
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-height: 150px;
+            margin-bottom: 20px;
+            
+        }
+        #popup_link {
+            display: none;
+            position: fixed;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            /* padding-right: 25px; */
+            
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width:300px;
+            border-radius: 2%;
+            font-family:"Zen Maru Gothic";
+
+        }
+        #popup_link label,
+        #popup_link input {
+            display: block;
+            margin: 5px 0;
+            width: 100%;
+        }
+        #popup_link input {
+            padding: 5px;
+        }
+        #popup_link .button-row {
+            display: flex;
+            justify-content: left;
+            margin-top: 10px;
+        }
+        #open-link {
+            margin-left: 5px;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: left;
+            text-align: left;
+            justify-content: left
+        }
+            
+    </style>
+
+    
+
+
+
+<div id="popup_link">
+  <label for="title-input" style="text-align: left;">タイトル:</label>
+  <input type="text" id="title-input">
+  <label for="url-input" style="text-align: left;">URL:</label>
+  <input type="text" id="url-input">
+  <div class="checkbox-row">
+      <input type="checkbox" id="target-blank-checkbox" style="width:20px">
+      <label for="target-blank-checkbox" style="margin-left: 5px;text-align: left;">ターゲット "_blank"</label>
+  </div>
+  <div class="button-row">
+      <button id="create-link">挿入</button>&nbsp;
+      <button id="close-popup">キャンセル</button>
+      <button id="open-link" disabled>開く</button>
+  </div>
+</div>
+
+
+<script>
+    const linkButton = document.getElementById('link-button');
+    const linkButton2 = document.getElementById('link-button2'); // Reference to new button
+    const popup_link = document.getElementById('popup_link');
+    const urlInput = document.getElementById('url-input');
+    const titleInput = document.getElementById('title-input');
+    const targetBlankCheckbox = document.getElementById('target-blank-checkbox');
+    const createLinkButton = document.getElementById('create-link');
+    const closePopupButton = document.getElementById('close-popup');
+    const openLinkButton = document.getElementById('open-link');
+    const editableDiv = document.getElementById('editable-div');
+    let selectedTextRange;
+    let currentLink;
+
+    // Event listener for both the original and new link buttons
+    [linkButton, linkButton2].forEach(button => {
+        button.addEventListener('click', () => {
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+                selectedTextRange = selection.getRangeAt(0);
+                if (!selectedTextRange.collapsed) {
+                    titleInput.value = selectedTextRange.toString();
+                    showPopup();
+                }
+            }
+        });
+    });
+
+    createLinkButton.addEventListener('click', insertOrUpdateLink);
+
+    [urlInput, titleInput].forEach(input => {
+        input.addEventListener('keyup', (event) => {
+            if (event.key === 'Enter') {
+                insertOrUpdateLink();
+            }
+        });
+    });
+
+    closePopupButton.addEventListener('click', closePopup);
+
+    urlInput.addEventListener('input', () => {
+        openLinkButton.disabled = !urlInput.value.trim();
+    });
+
+    openLinkButton.addEventListener('click', () => {
+        const url = urlInput.value.trim();
+        if (url) {
+            window.open(url, '_blank');
+        }
+    });
+
+
+
+
+   
+// Function to open the link popup
+function openLinkPopup() {
+    if (currentLink) {
+        urlInput.value = decodeURIComponent(currentLink.href);
+        titleInput.value = currentLink.textContent;
+        openLinkButton.disabled = !urlInput.value.trim();
+        targetBlankCheckbox.checked = currentLink.target === '_blank';
+        const rect = currentLink.getBoundingClientRect();
+
+        if (selectedTextRange) {
+            const rect = selectedTextRange.getBoundingClientRect();
+            const isNearBottom = rect.top + rect.height + 200 > window.innerHeight;
+
+            if (isNearBottom) {
+                popup_link.style.top = '50%';
+                popup_link.style.left = '50%';
+                popup_link.style.transform = 'translate(-50%, -50%)';
+            } else {
+                popup_link.style.top = `${rect.top + window.scrollY + 20}px`;
+                popup_link.style.left = `${rect.left + window.scrollX}px`;
+                popup_link.style.transform = 'translate(0, 0)';
+            }
+        }
+
+        popup_link.style.top = `${rect.top + window.scrollY + 20}px`;
+        popup_link.style.left = `${rect.left + window.scrollX}px`;
+        popup_link.style.display = 'block';
+
+        // Focus and select all text in the URL input
+        urlInput.focus();
+        urlInput.select();
+
+        // Make the popup draggable
+        makePopupDraggable(popup_link);
+    }
+}
+
+// Listen for double-clicks on links to open the popup
+Preview_p.addEventListener('dblclick', (event) => {
+    if (event.target.tagName.toLowerCase() === 'a') {
+        currentLink = event.target;
+        openLinkPopup();
+    }
+});
+
+// Listen for Ctrl + Shift + L to open the popup
+Preview_p.addEventListener('keydown', (event) => {
+    if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === 'l') {
+        //event.preventDefault(); // Prevent default behavior if needed
+        openLinkPopup();
+        }
+});
+
+
+window.addEventListener('click', (event) => {
+    if (!popup_link.contains(event.target) && ![linkButton, linkButton2].includes(event.target)) {
+        closePopup();
+    }
+});
+
+
+function makePopupDraggable(popup) {
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    popup.addEventListener('mousedown', function(e) {
+        // Prevent dragging if the target is an input or a button element
+        if (e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'button') {
+            return;
+        }
+
+        isDragging = true;
+        offsetX = e.clientX - popup.offsetLeft;
+        offsetY = e.clientY - popup.offsetTop;
+
+        // Prevent default action to stop text selection
+        e.preventDefault();
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
+    });
+
+    function onMouseMove(e) {
+        if (isDragging) {
+            popup.style.left = `${e.clientX - offsetX}px`;
+            popup.style.top = `${e.clientY - offsetY}px`;
+        }
+    }
+
+    function onMouseUp() {
+        isDragging = false;
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
+    }
+}
+
+
+
+
+
+
+function showPopup() {
+    if (selectedTextRange) {
+        const rect = selectedTextRange.getBoundingClientRect();
+        const isNearBottom = rect.top + rect.height + 200 > window.innerHeight;
+
+        if (isNearBottom) {
+            popup_link.style.top = '50%';
+            popup_link.style.left = '50%';
+            popup_link.style.transform = 'translate(-50%, -50%)';
+        } else {
+            popup_link.style.top = `${rect.top + window.scrollY + 20}px`;
+            popup_link.style.left = `${rect.left + window.scrollX}px`;
+            popup_link.style.transform = 'translate(0, 0)';
+        }
+    }
+    popup_link.style.display = 'block';
+    urlInput.value = '';
+    titleInput.value = titleInput.value || '';
+    openLinkButton.disabled = true;
+    targetBlankCheckbox.checked = false;
+    urlInput.focus();
+
+    // Make the popup draggable
+    makePopupDraggable(popup_link);
+}
+
+    function closePopup() {
+        popup_link.style.display = 'none';
+        urlInput.value = '';
+        titleInput.value = '';
+        currentLink = null;
+    }
+
+    function insertOrUpdateLink() {
+        const url = urlInput.value.trim();
+        const title = titleInput.value.trim();
+
+        if (currentLink) {
+            if (url) {
+                currentLink.href = url;
+                currentLink.textContent = title || currentLink.textContent;
+                if (targetBlankCheckbox.checked) {
+                    currentLink.setAttribute('target', '_blank');
+                } else {
+                    currentLink.removeAttribute('target'); // Remove target if not checked
+                }
+            } else {
+                currentLink.replaceWith(currentLink.textContent);
+            }
+        } else if (url && selectedTextRange) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.textContent = title || selectedTextRange.toString();
+            if (targetBlankCheckbox.checked) {
+                a.setAttribute('target', '_blank');
+            }
+            selectedTextRange.deleteContents();
+            selectedTextRange.insertNode(a);
+            selectedTextRange = null;
+        }
+        editor.setValue(document.getElementById('Preview_p').innerHTML);
+        htmlhanei();
+
+
+        currentLink = null;
+        closePopup();
+    }
+  
+    
+</script>
+
+</body>
+
+<br><br>
+<style>
+
+
+  </style>
+
+<div id="counter">
+<a href='https://www.free-counters.org/'>Get free Counters</a> 
+  <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=a147b710d564e55d001453c3aedef7679a1f0c99'></script>
+  <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1302284/t/0">
+
+
+
+ 
+
+
+  </script>
+  
+</div>
+
+<script>
+    setTimeout(hidecount, 2000);
+
+    function shoowcount()
+    {
+      document.getElementById('counter').style.display='block';  
+      setTimeout(hidecount, 5000);
+
+    }
+    
+    function hidecount()
+  {
+    document.getElementById('counter').style.display='none';
+    //https://www.freevisitorcounters.com/en/home/stats/id/1302284 ,time-3 hours of JP time
+  }
+
+  </script>
+
+
+
+
+
+<!-- multi-highlight---------------------------------------- -->
+
+<style>
+  
+
+  .editor-container {
+      flex-grow: 1;
+      margin-right: 20px;
+      position: relative;
+            
+  }
+
+  #toggleButton {
+      margin-bottom: 10px;
+  }
+
+  .input-container {
+      display: none; /* Initially hidden */
+      flex-direction: column;
+      position: absolute;
+      top: 40px; /* Position below the button */
+      left: -200px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      z-index: 1000;
+  }
+
+  .input-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1px;
+            
+  }
+
+  .input-group input {
+      padding: 5px;
+      width: 100px;
+      margin-right: 5px;
+      width:200px;
+  }
+
+  .input-group button {
+      padding: 5px 10px;
+  }
+
+  .highlight-1 { background-color: #ffcccc; }
+  .highlight-2 { background-color: #ccffcc; }
+  .highlight-3 { background-color: #ccccff; }
+  .highlight-4 { background-color: #ffffcc; }
+  .highlight-5 { background-color: #ffccff; }
+  .highlight-6 { background-color: #ccffff; }
+
+  .input-group span {
+    margin-right: 10px;
+    color: #0bc559;
+    font-weight: bold;
+}
+
+</style>
+
+<script>
+  
+  // Function to escape special characters in regex
+  function escapeRegExp(string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+
+  function highlightText() {
+    const highlights = [];
+    for (let i = 1; i <= 6; i++) {
+        highlights.push(document.getElementById(`highlight${i}`).value);
+    }
+
+    // Reset counts for all highlights
+    for (let i = 1; i <= 6; i++) {
+        document.getElementById(`count${i}`).textContent = '';
+    }
+
+    editor.getAllMarks().forEach(mark => mark.clear());
+
+    highlights.forEach((text, index) => {
+        if (text) {
+            const escapedText = escapeRegExp(text);
+            const regex = new RegExp(`(${escapedText})`, 'gi');
+            let totalCount = 0; // Initialize count of matches
+
+            editor.eachLine((line) => {
+                let match;
+                while ((match = regex.exec(line.text)) !== null) {
+                    totalCount++;
+                    editor.markText(
+                        { line: line.lineNo(), ch: match.index },
+                        { line: line.lineNo(), ch: match.index + match[1].length },
+                        { className: `highlight-${index + 1}` }
+                    );
+                }
+            });
+
+            if (totalCount > 0) {
+                document.getElementById(`count${index + 1}`).textContent = `(${totalCount}) `;
+            }
+        }
+    });
+}
+
+  // Function to replace text for a specific input group
+  function replaceText(index) {
+      const find = document.getElementById(`highlight${index}`).value;
+      const replace = document.getElementById(`replace${index}`).value;
+
+      if (find) {
+          const escapedFind = escapeRegExp(find);
+          const regex = new RegExp(escapedFind, 'g');
+
+          editor.operation(() => {
+              editor.eachLine((line) => {
+                  let match;
+                  while ((match = regex.exec(line.text)) !== null) {
+                      editor.replaceRange(
+                          replace,
+                          { line: line.lineNo(), ch: match.index },
+                          { line: line.lineNo(), ch: match.index + match[0].length }
+                      );
+                  }
+              });
+          });
+
+          highlightText(); // Reapply highlights after replacement
+          htmlhanei();
+      }
+  }
+
+  // Add event listeners to inputs
+  document.querySelectorAll('.input-container input').forEach(input => {
+      input.addEventListener('input', highlightText);
+  });
+
+  // Toggle input visibility
+  const toggleButton = document.getElementById('toggleButton');
+  const inputContainer = document.getElementById('inputContainer');
+
+  toggleButton.addEventListener('click', () => {
+      if (inputContainer.style.display === 'none' || inputContainer.style.display === '') {
+          inputContainer.style.display = 'flex';
+      } else {
+          inputContainer.style.display = 'none';
+      }
+  });
 
 </script>
 
 
+<!-- end multi-highlight---------------------------------------- -->
 
-</body>
+
+
+
+
 
 </html>
