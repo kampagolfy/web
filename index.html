@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <html>
@@ -461,7 +460,7 @@ h1 {
 <button onclick="fontsizechange_underline()" title="見出し+下線を設定したい文字列を選択してからクリック">見出し+下線</button>
 <button onclick="insertselectHTML()">HTML挿入</button>
 <button id="acoopen-close" onclick="acoopenclose()" title="クリックしてアコーディオンを全部展開/縮小ができる">アコ全展開</button>
-<button id="acoedit" onclick="acoedit()" title="クリックしてアコーディオンを崩さないで内の内容を編集できる">アコ編集</button>
+<button id="acoedit" onclick="acoedit()" title="クリックしてアコーディオンを崩さないように内の内容を編集できます。改行はShift+Enterを利用してください。">アコ編集</button>
 
 <!--button onclick="copytojira()" title="Jiraでは、ハイフンは自動的に ・ になる。これでJira用のハイフンに変更。">Jira用ハイフン</button>-->
 <!--button onclick="copyRichText()">コピー</button-->
@@ -601,14 +600,22 @@ Shift-Ctrl-R:Replace all"
         function addEventListenersToContent() {
           
           // Adding to links
-          document.querySelectorAll('#Preview_p a').forEach(anchor => {
-                
-                anchor.addEventListener('mouseover', function(e) {
-                    // Decode the URL for tooltip display
-                    showTooltip(decodeURIComponent(anchor.href), e);
-                });
-                anchor.addEventListener('mouseout', hideTooltip);
-            });
+          // Select all anchor tags within #Preview_p
+document.querySelectorAll('#Preview_p a').forEach(anchor => {
+
+    anchor.addEventListener('mouseover', function(e) {
+        // Extract the part of the URL after the hash
+        const href = anchor.href;
+        const hashIndex = href.indexOf('#');
+        const tooltipText = (hashIndex >= 0) ? decodeURIComponent(href.substring(hashIndex)) : decodeURIComponent(href);
+
+        // Show the tooltip with the decoded portion after the hashtag
+        showTooltip(tooltipText, e);
+    });
+
+    // Hide the tooltip on mouse out
+    anchor.addEventListener('mouseout', hideTooltip);
+});
 
             // Adding events to images
             document.querySelectorAll('#Preview_p img').forEach(image => {
@@ -2319,7 +2326,12 @@ editor.setValue(a);
 // Function to open the link popup
 function openLinkPopup() {
     if (currentLink) {
-        urlInput.value = decodeURIComponent(currentLink.href);
+        // Split the href at the hash and take only the part from the hash onwards
+        const href = currentLink.href;
+        const hashIndex = href.indexOf('#');
+                urlInput.value = (hashIndex >= 0) ? decodeURIComponent(href.substring(hashIndex)) : decodeURIComponent(href);
+
+
         titleInput.value = currentLink.textContent;
         openLinkButton.disabled = !urlInput.value.trim();
         targetBlankCheckbox.checked = currentLink.target === '_blank';
@@ -2642,25 +2654,31 @@ function showPopup() {
 
   // Function to replace text for a specific input group
   function replaceText(index) {
-      const find = document.getElementById(`highlight${index}`).value;
-      const replace = document.getElementById(`replace${index}`).value;
+    const find = document.getElementById(`highlight${index}`).value;
+    const replace = document.getElementById(`replace${index}`).value;
 
-      if (find) {
-          const escapedFind = escapeRegExp(find);
-          const regex = new RegExp(escapedFind, 'g');
+    if (find) {
+        const escapedFind = escapeRegExp(find); // Escape the 'find' text
+        const regex = new RegExp(escapedFind, 'g'); // Compile regex globally
 
-          editor.operation(() => {
-              editor.eachLine((line) => {
-                  let match;
-                  while ((match = regex.exec(line.text)) !== null) {
-                      editor.replaceRange(
-                          replace,
-                          { line: line.lineNo(), ch: match.index },
-                          { line: line.lineNo(), ch: match.index + match[0].length }
-                      );
-                  }
-              });
-          });
+        editor.operation(() => {
+            editor.eachLine((line) => {
+                let matches = []; 
+                let match;
+                while ((match = regex.exec(line.text)) !== null) {
+                    matches.push({ start: match.index, end: match.index + match[0].length });
+                }
+
+                // Replace matches in reverse order to prevent messing up indices
+                matches.reverse().forEach(({ start, end }) => {
+                    editor.replaceRange(
+                        replace,
+                        { line: line.lineNo(), ch: start },
+                        { line: line.lineNo(), ch: end }
+                    );
+                });
+            });
+        });
 
           highlightText(); // Reapply highlights after replacement
           htmlhanei();
